@@ -52,6 +52,29 @@ Typische Anwendungsfälle:
 
 ## Installation & Setup
 
+### Auf dem Raspberry Pi
+
+### Action-URL
+
+### Initiale Home Automationen Regeln für Weitergabe der Lux-Werte aus dem Lichtsensor
+
+Soll der Lichtsensor der LUPUS Anlage für die Steuerung des Lichtes mit genutzt werden, müssen die aktuellen Lux-Werte mit vordefinierten Home Automation Regeln zwischen der LUPUS XT2 und dem Raspberry Pi synchronisiert werden.
+
+Dazu sollten folgende Home Automation Regeln in der XT2 angelegt werden:
+
++ Wenn Lux zwischen 0 und 5 -> Immer -> Action-URL "$1/lux?x=5
++ Wenn Lux zwischen 6 und 6 -> Immer -> Action-URL "$1/lux?x=6
++ Wenn Lux zwischen 7 und 7 -> Immer -> Action-URL "$1/lux?x=7
++ Wenn Lux zwischen 8 und 8 -> Immer -> Action-URL "$1/lux?x=8
++ Wenn Lux zwischen 9 und 16 -> Immer -> Action-URL "$1/lux?x=9
+
+In meinen Tests haben sich die Lux-Level von 5 ... 9 als in der Praxis relevant erwiesen. Sollten doch mehr Stufen benötigt werden
+müssen entsprechende Regeln ergänzt werden. Das Programm lupus-hue kann mit allen Werten zwischen 0 und 16 zurecht kommen.
+
+Zum Start des lupus-heu Webservice wird der Lux-Wert intern auf 0 gesetzt bis zum ersten Mal eine Home Automation Regel des
+Lichtsensors auslöst und damit der richtige Wert gesetzt wird. Alternativ kann über einen Browser der Lux-Wert auch zum Testen oder
+initial manuell gesetzt werden (siehe weiter unten: Kommando "lux").
+
 ## Das Web-API
 
 ### Begrifflichkeiten und Konzepte
@@ -91,8 +114,6 @@ info?g=group ermittelt werden.
 
 Schalte die Gruppe (Raum) group ein und setze ggf. einen Timer bzw. verzögere die Einschaltung.
 
-+ _l=light    Nummer des Lichtes 
-+ _g=group    Name des Raumes wie in der Hue App gesetzt oder der Name eines "Pseudo-Raums" wie unten beschrieben.
 + _t=seconds  Setze einen Timer von seconds Sekunden, nach denen das Licht / die Gruppe wieder ausgeschaltet wird.
 + _d=1_l=lux  Wenn angegeben, wird das Einschalten verzögert, bis der Lux-Level lux oder niedriger erreicht wird.
 + _b=bri      Setze die Helligkeit auf bri (0 .. 254)
@@ -115,35 +136,39 @@ Schalte die Gruppe (Raum) group ein und setze Farbe und Farbsättigung.
 + _s=sat      Setze die Sättigung aus sat.
 + Andere Parameter wie oben
 
-http://ip_des_raspi:8000/on?l=light_h=hue_s=sat][_b=bri][_t=seconds][_d=1_x=lux]
+#### http://ip_des_raspi:8000/on?l=light_h=hue_s=sat][_b=bri][_t=seconds][_d=1_x=lux]
 
 Wie oben aber für das Licht light.
 
-http://ip_des_raspi:8000/on?{g=group|l=light}[_t=seconds][_d=1_x=lux][_h=hue][_c=coltemp][_b=brightness]
-Parameter:
-+ _c=coltemp  Setze die Farbtemperatur auf coltemp. Schließt sich mit hue / sat aus.
-+ Andere Parameter wie oben
+#### http://ip_des_raspi:8000/on?g=group_c=coltemp[_b=brightness][_t=seconds][_d=1_x=lux]
 
-http://ip_des_raspi:8000/on?g=group_n=scene[_t=timer][_d=deferred_x=lux_level]
-Parameter:
-+ _n=scene  Aktiviere die Szene scene für.
-+ Andere Parameter wie oben
-            #
-            #       switch group on an optionally set timer or defer
-            #
-            # off: switch group or light off
-            #
-            #   off?{g=group|l=light}[_t=timer]
-            #
-            #       switch group|light off and optionally set timer (to switch back on)
-            #
-            # info: get info on groups, lights
-            #
-            #   info?{g=group|l=light}
-            #
-            # lux: set lux level
-            #
-            #   lux?x=lux_level
+Schalte die Lichter der Gruppe (Raums) group ein und setze die Farbtemperatur auf coltemp. Andere Parameter wir oben.
+
+#### http://ip_des_raspi:8000/on?l_light_c=coltemp[_b=brightness][_t=seconds][_d=1_x=lux]
+
+Schalte das Licht light ein und setze die Farbtemperatur auf coltemp. Andere Parameter wir oben.
+
+#### http://ip_des_raspi:8000/on?g=group_n=scene[_t=timer][_d=deferred_x=lux_level]
+
+Aktiviere die Szene scene für Gruppe (Raum) group. Andere Parameter wie oben.
+
+### Kommando "off" - Schalte Licht oder Raum aus
+
+#### http://ip_des_raspi:8000/off?g=group[_t=timer]
+
+Schalte Raum (Gruppe) group aus.
+
++ _t=seconds  Setze einen Timer von seconds Sekunden, nach denen das Licht / die Gruppe wieder eingeschaltet(!) wird.
+
+#### http://ip_des_raspi:8000/off?l=light[_t=timer]
+
+Schalte Licht light aus.
+
+### Kommando "lux" - Setze Lichtwert aus LUPUS Alarmanlage
+
+#### http://ip_des_raspi:8000/lux?x=level
+
+Setzte den Lux-Level gemäß dem aktuellen Stand 
             #
             #       set lux level to lux_level
             #
