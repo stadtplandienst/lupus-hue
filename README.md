@@ -52,10 +52,68 @@ Typische Anwendungsfälle:
 
 ## Installation & Setup
 
-## Kommando-Syntax
+## Das Web-API
+
+### Begrifflichkeiten
+
+Räume werden in der Notation des Phlips Hue API als "Groups" (Gruppen) bezeichnet. 
+
+### HTTP-Request
+
+Der lupus-hue Webservice wird über einen HTTP Get-Request aufgerufen:
+
+http://<ip_des_raspi>:8000/<kommando>?<param1>=<value1>_<param2>=<value2>
+
+Im Folgenden werden die verschiedenen Kommandos erklärt:
+
+### on: Lichter oder Räume ein und Ausschalten
+
+on?g=<group>|l=<light>}[_t=timer][_d=deferred][_h=hue][_s=sat][_b=brightness]
+switch group|light on an set hue/sat, optionally set timer or defer
+
+on?{g=group|l=light}[_t=timer][_d=deferred][_c=colortemp][_b=brightness]
+            #
+            #       switch on group|light on an set color temperature, optionally set timer or defer
+            #
+            #   on?g=group[_t=timer][_d=deferred_x=lux_level][_n=scene]
+            #
+            #       switch group on an optionally set timer or defer
+            #
+            # off: switch group or light off
+            #
+            #   off?{g=group|l=light}[_t=timer]
+            #
+            #       switch group|light off and optionally set timer (to switch back on)
+            #
+            # info: get info on groups, lights
+            #
+            #   info?{g=group|l=light}
+            #
+            # lux: set lux level
+            #
+            #   lux?x=lux_level
+            #
+            #       set lux level to lux_level
+            #
+            # loop: call loop of scenes
+            #
+            #   loop?g=group_n=scene_t=timer
+            #
+            #       Call loop of scenes for group and scene name as defined in init_scenes() for timer seconds
+            #
+            # init: initialize scenes
+            #
 
 ## Schreiben der LUPUS Home Automation Regeln
 
 ### Einfache Regeln
 
 ### Timer 
+
+### Lichtabhängige Steuerung
+
+### Szenen
+
+
+
+## Quellen
