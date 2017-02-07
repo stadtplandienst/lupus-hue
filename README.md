@@ -1,6 +1,6 @@
 # lupus-hue
 
-!! Steuere Philips Hue Lichter über die LUPUS XT+ Alarmanlage !!
+## Steuere Philips Hue Lichter über die LUPUS XT+ Alarmanlage !!
 
 Die LUPUS XT2+ Alarmanlage bietet u.a. auch eine Reihe von Home Automation Regeln, um verschiedene Aspekte eines intelligenten Heims
 zu steuern. Unter anderem ist es möglich Lichter oder andere Verbraucher über die Unterputzrelais oder die Funksteckdosen zu schalten.
@@ -16,7 +16,9 @@ Lichtern geht das aber schnell ins Geld und hat auch eine Reihe von Einschränku
 Aus diesem Grund habe ich ein Projekt entwickelt, mit dem eine LUPUS XT2+ mit Hilfe der "Action URL"-Regel Philips Hue (oder kompatible) 
 Lichter steuern kann.
 
-Voraussetzungen:
+## Voraussetzungen
+
+Folgendes Equipment wird vorausgesetzt:
 + LUPUS XT2+
 + Rapsberry Pi 3 (mit Rasbian basierend auf Jessie)
 + Philips Hue Bridge (nur getestet mit v2)
@@ -28,7 +30,9 @@ Optional:
 + OSRAM Lightify Plug (günstige Funksteckdose)
 + Andere Sensoren wie sie in den Home Automation Regeln genutzt werden 
 
-Features:
+## Features & Anwendungsfälle
+
+lupus-hue hat folgende Features:
 + Räume (Groups) oder Lichter ein- und ausschalten
 + Setzen von Helligkeit, Farben oder Lichttemperatur für Räume (Groups) oder einzelne Lichter
 + Aufrufen von Szenen (verschiedene Einstellungen für die Lichter eines Raums)
@@ -45,3 +49,13 @@ Typische Anwendungsfälle:
 + Lichter für eine definierte Zeit einschalten bei Bewegung (gemeldet über einen LUPUS Bewegungsmelder)
 + Lichter einschalten oder blinken lassen, wenn Alarm ausgelöst wird
 + Scharfschaltungszustand der Anlage bei Betreten des Hauses über Farbe eines Lichtes signalisieren 
+
+## Installation & Setup
+
+## Kommando-Syntax
+
+## Schreiben der LUPUS Home Automation Regeln
+
+### Einfache Regeln
+
+### Timer 
