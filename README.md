@@ -78,7 +78,7 @@ Dazu sollten folgende Home Automation Regeln in der XT2 angelegt werden:
 + Wenn Lux zwischen 8 und 8 -> Immer -> Action-URL "$1/lux?x=8
 + Wenn Lux zwischen 9 und 16 -> Immer -> Action-URL "$1/lux?x=9
 
-![Lupus_logo](public/img/stadt.jpg "stadt")
+![Lupus_logo](public/stadt.jpg "stadt")
 
 In meinen Tests haben sich die Lux-Level von 5 ... 9 als in der Praxis relevant erwiesen. Sollten doch mehr Stufen benötigt werden
 müssen entsprechende Regeln ergänzt werden. Das Programm lupus-hue kann mit allen Werten zwischen 0 und 16 zurecht kommen.
