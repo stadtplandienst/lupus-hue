@@ -93,7 +93,9 @@ Räume werden in der Notation des Phlips Hue API als "Groups" (Gruppen) bezeichn
 
 Der lupus-hue Webservice wird über einen HTTP Get-Request aufgerufen:
 
-http://<ip_des_raspi>:8000/<kommando>?<param1>=<value1>_<param2>=<value2>
+http://ip_des_raspi:8000/kommando?param1=wert1_param2=wert2
+
+Für ip_des_raspi ist die reale IP-Adresse des Raspberry Pi einzusetzen (also z.B. 192.168.0.111).
 
 Im Folgenden werden die verschiedenen Kommandos erklärt:
 
