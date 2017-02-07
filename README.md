@@ -59,7 +59,7 @@ Der Webservice, der die Lichtsteuerung übernimmt muss mit dem python Interprete
 
 $ python3.4 lupus-hue.py
 
-In der Literatur zum Raspberry Pi werden verschiedene Methoden vorgestellt, wie ein solches Kommand automatisch beim Start
+In der Literatur zum Raspberry Pi werden verschiedene Methoden vorgestellt, wie ein solches Kommando automatisch beim Start
 des Raspberry Pi ausgeführt werden kann.
 
 Zuvor muss aber noch die lupus-hue.conf Datei editiert werden.
@@ -72,14 +72,17 @@ Alle weiteren Einträge werden erst für weitergehende Einstellungen benätigt u
 
 ### 2. Action-URL auf der LUPUS XT2+ konfigurieren
 
-Der lupus-hue Webservice wird über einen HTTP Get-Request aufgerufen:
+Der lupus-hue Webservice auf dem Raspberry Pi wird über einen HTTP Get-Request aufgerufen:
 
 http://ip_des_raspi:8000/kommando?param1=wert1_param2=wert2
 
-Für ip_des_raspi ist die reale IP-Adresse des Raspberry Pi einzusetzen (also z.B. 192.168.0.111). 
+Für ip_des_raspi ist die reale IP-Adresse des Raspberry Pi einzusetzen (also z.B. 192.168.0.111). Der Router im Heimnetz
+muss so konfiguriert sein, dass dem Raspberry Pi immer dieselbe IP-Adresse zugewiesen wird.
 
-Der erste Teil dieses HTTP-Requests als Parameter in der Weboberfläche der LUPUS Anlage zu hinterlegen. 
+Der erste Teil dieses HTTP-Requests ist als Parameter in der Weboberfläche der LUPUS Anlage zu hinterlegen. 
 In der Admin-Oberfläche zu Netzwerk -> Kameras und dort eintragen: http://ip_des_raspi:8000/ 
+
+xxx Bild einfügen
 
 Dieser String wird später in den Home Automation Regeln über den Parameter $1 eingefügt.
 
@@ -88,6 +91,8 @@ Dieser String wird später in den Home Automation Regeln über den Parameter $1 
 Wenn der Lichtsensor nicht benutzt wird, kann dieser Abschnitt übersprungen werden.
 
 Es müssen die folgenden Home Automation Regeln in der XT2 angelegt werden:
+
+xxx Bild einfügen
 
 + Wenn Lux zwischen 0 und 5 -> Immer -> Action-URL "$1/lux?x=5
 + Wenn Lux zwischen 6 und 6 -> Immer -> Action-URL "$1/lux?x=6
@@ -109,7 +114,8 @@ initial manuell gesetzt werden (siehe weiter unten: Kommando "lux").
 Ich habe dieses Programm ausschließlich mit der Standard Hue App von Philips getestet. Grundsätzlich müsste lupus-hue aber auch
 mit Apps von Dritten zusammen arbeiten.
 
-Es sollten alle Räume - in der Philips Hue API heißen diese Gruppen bzw. Groups - und Lichter über die App eingerichtet werden.
+Es sollten alle Räume - in der Philips Hue API heißen diese Gruppen bzw. Groups - und Lichter über die App eingerichtet werden. Wenn
+hier von Gruppe die Rede ist, kann synonym auch Raum benutzt werden.
 
 Über lupus-hue können die Farbwerte nach dem Hue/Sat-Schema und Weißtöne nach der Farbtemperatur (color temperatur) eingestellt werden.
 
@@ -119,10 +125,8 @@ Für die Nutzung von Szenen siehe Kapitel "Szenen".
 
 ## Das Web-API
 
-Hier wird zunächst das Web-API des lupus-hue Webservice erklärt, bevor weiter unten die praktischen Beispiele in Verbindung mit der
+Hier wird zunächst das Web-API des lupus-hue Webservice erläutert, bevor weiter unten die praktischen Beispiele in Verbindung mit der
 LUPUS Anlage erklärt werden.
-
-### Kommandos
 
 Im Folgenden werden die verschiedenen Kommandos für den Webservice erklärt:
 
@@ -220,15 +224,86 @@ Es werden nur die Lichter verändert, die sowohl in Gruppe group als auch in Sze
 Platzhalter für die Szenen scene1, scene2 und scene3. Während der Loop wird zwischen den Szenen scene1 und scene2 im Sekundentakt
 gewechselt (geblinkt). Nach Beendigung der Loop wird die Szene scene3 aktiviert.
 
-Siehe auch das weiterführende Kapitel "Szenen".
+Siehe auch das  Kapitel "Szenen".
 
+## Einfache Anwendungen
+
+###  Schalten des Lichtes zu einer Zeit und abhängig vom Scharf-Zustand 
+
+Eine wichtige und sinnvolle Anwendung ist das Einschalten von Lichtern im Modus "arm". Hierzu kann folgende einfache Home Automation
+Regel in der LUPUS Anage dienen:
+
+xxx
+
+Wenn Area1 und Modus-Wechsel "arm" -> Zeit 17:00 bis 17:00 -> Action-URL $1/on?g=Wohnzimmer_b=180
+
+Schaltet immer um 17:00 wenn die Anlage in Area1 scharf ist im Wohnzimmer die Lichter ein und dimmt die Helligkeit auf 180 (von 254.
+
+###  Schalten des Lichtes abhängig von der Helligkeit 
+
+Wird der Lichtsensor eingesetzt, kann die Steuerung des Lichtes abhängig von der Meldung des Sensors erfolgen:
+
+xxx
+
+Wenn Area1 und Modus-Wechsel "disarm" -> Zeit 7:00 bis 7:00 -> Action-URL $1/on?g=Kueche_x=7
+
+Schaltet immer morgens um 7:00 das Licht in der Küche ein, aber nur wenn die Anlage unscharf ist (Modus disarm) und wenn
+die Helligkeit nicht größer als 7 ist. D.h. sollte um 7:00 der Sensor Lux 8 oder höher gemeldet haben, wird das Licht nicht
+geschaltet.
+
+###  Verzögertes Schalten zur Dämmerung
+
+Einer der größten Einschränkungen in der jetzigen Version der LUPUS XT ist die unzureichende Möglichkeit, die Helligkeit und
+den Modus (Scharf-Zustand) der Anlage vernünftig zu kombinieren:
+
+- Die Helligkeit 
+
+
+
+Dazu gibt es das verzögerte Schalten abhängig von der Helligkeit. 
+
+Beispiel:
+
+
+
+xxx
+
+Wenn Area1 und Modus-Wechsel "disarm" -> Zeit 7:00 bis 7:00 -> Action-URL $1/on?g=Kueche_x=7
+
+Schaltet immer morgens um 7:00 das Licht in der Küche ein, aber nur wenn die Anlage unscharf ist (Modus disarm) und wenn
+die Helligkeit nicht größer als 7 ist. D.h. sollte um 7:00 der Sensor Lux 8 oder höher gemeldet haben, wird das Licht nicht
+geschaltet.
+
+
+
+## Fortgeschrittene Konzepte
 
 ### Timer 
 
-### Lichtabhängige Steuerung
+### Verzögertes Schalten bei Licht-Level
 
+Durch
 ### Szenen und Loops
 
+### Meta-Räume
+
+An jeder Stelle an der in der obigen API-Beschreibung die Nennung eines Raumes möglich ist, der in der Hue Bridge angelegt sein muss,
+kann auch ein "Meta-Raum" angegeben werden. Das sind Listen von Räumen, die in der Konfigurationsdatei lupus-hue.conf hinterlegt werden
+können.
+
+Meta-Räume dienen der Reduktion der nötigen Home Automation Regeln in der LUPUS XT-Anlage. Beispiel:
+
+In der Hue Bridge wurden die Räume "Wohnzimmer", "Flur" und "Kueche" angelegt. Es wird nun der Meta-Raum "Erdgeschoss" angelegt, der 
+als "Wohnzimmer" + "Flur" + "Kueche" definiert wird.
+
+Nun kann in jedem Kommando "Erdgeschoss" als Gruppe bzw. Raumname genutzt werden und damit die Steuerung aller Lichter in den
+drei eigentlichen Räumen gesteuert werden. 
+
+Der Raum "all" steht für alle Lichter, die in der Bridge angelegt sind. "all" wird auf die vordefinierte Hue Gruppe "0" abgebildet.
+
+Die Konfiguration für Meta-Räume in der lupus-hue.conf sieht wie folgt aus:
+
+xxx 
 
 
 ## Quellen
