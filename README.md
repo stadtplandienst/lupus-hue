@@ -18,12 +18,21 @@ Lichter steuern kann.
 
 Voraussetzungen:
 + LUPUS XT2+
-+ Rapsberry Pi 3
-+ Philips Hue Bridge
++ Rapsberry Pi 3 (mit Rasbian basierend auf Jessie)
++ Philips Hue Bridge (nur getestet mit v2)
 + Philips Hue oder kompatible Leuchtmittel (z.B. auch Osram Lightify oder innr)
 
 Optional:
 + LUPUS Lichtsensor (für lichtabhängige Steuerung)
 + LUPUS Bewegungsmelder (für bewegungsabhängige Steuerung)
++ OSRAM Lightify Plug (günstige Funksteckdose)
 + Andere Sensoren wie sie in den Home Automation Regeln genutzt werden 
 
+Features:
++ Räume (Groups) oder Lichter ein- und ausschalten
++ Setzen von Helligkeit, Farben oder Lichttemperatur für Räume (Groups) oder einzelne Lichter
++ Aufrufen von Szenen (verschiedene Einstellungen für die Lichter eines Raums)
++ Setzen von Timern für das Ein- und Ausschalten (entspricht der "Einschalten für" von LUPUS aber auch mit "Ausschalten für")
++ Loops für Effekte (z.B. für die Signalisierung eines Zustands)
++ Ausführen von Kommandos abhängig vom Lux-Wert des Lichtsensors
++ Zeitverzögertes Ausführen von Kommandos bis ein Lux-Wert erreicht ist
