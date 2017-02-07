@@ -1,6 +1,6 @@
 # lupus-hue
 
-## Steuere Philips Hue Lichter über die LUPUS XT2+ Alarmanlage !!
+## Steuere Philips Hue Lichter über die LUPUS XT2+ Alarmanlage!
 
 Die LUPUS XT2+ Alarmanlage bietet u.a. auch eine Reihe von Home Automation Regeln, um verschiedene Aspekte eines intelligenten Heims
 zu steuern. Unter anderem ist es möglich Lichter oder andere Verbraucher über die Unterputzrelais oder die Funksteckdosen zu schalten.
@@ -129,7 +129,7 @@ Beispiele:
 
 + http://192.168.0.111:8000/on?g=Flur_b=200_t=180
 
-Schaltet die Lichter im Raum "Flur" für 180 Sekunden ein und setzt die Helligkeit auf 200.
+Schaltet die Lichter im Raum "Flur" für 180 Sekunden ein und setzt die Helligkeit auf 200 (von 254).
 
 + http://192.168.0.111:8000/on?g=all_d=1_x=6
 
@@ -139,21 +139,27 @@ Schalte alle Lichter ein, sobald der Lux Level am Lichtsensor auf 6 gesunken ist
 
 Wie oben aber für das Licht light.
 
-#### http://ip_des_raspi:8000/on?g=group_h=hue_s=sat][_b=bri][_t=seconds][_d=1_x=lux]
+#### http://ip_des_raspi:8000/on?g=group_h=hue_s=sat[_b=bri][_t=seconds][_d=1_x=lux]
 
 Schalte die Gruppe (Raum) group ein und setze Farbe und Farbsättigung.
 
-+ _h=hue      Setze den "hue" Wert des Lichts / des Raums auf hue (siehe Philips Hue API). 
++ _h=hue      Setze den "hue" Wert des Lichts / des Raums auf hue (siehe Kapitel "Farben"). 
 + _s=sat      Setze die Sättigung aus sat.
 + Andere Parameter wie oben
 
-#### http://ip_des_raspi:8000/on?l=light_h=hue_s=sat][_b=bri][_t=seconds][_d=1_x=lux]
+#### http://ip_des_raspi:8000/on?l=light_h=hue_s=sat[_b=bri][_t=seconds][_d=1_x=lux]
 
 Wie oben aber für das Licht light.
 
+Beispiel:
+
++ http://192.168.0.111:8000/on?l=10_h=21986_s=253
+
+Schaltet das Licht 10 ein und setzt einen tiefgrünen Farbton.
+
 #### http://ip_des_raspi:8000/on?g=group_c=coltemp[_b=brightness][_t=seconds][_d=1_x=lux]
 
-Schalte die Lichter der Gruppe (Raums) group ein und setze die Farbtemperatur auf coltemp. Andere Parameter wir oben.
+Schalte die Lichter der Gruppe (Raums) group ein und setze die Farbtemperatur auf coltemp. Andere Parameter wir oben. Siehe auch Kapitel "Farben".
 
 #### http://ip_des_raspi:8000/on?l_light_c=coltemp[_b=brightness][_t=seconds][_d=1_x=lux]
 
@@ -187,9 +193,12 @@ Setzte den Lux-Level gemäß dem aktuellen Stand. Siehe auch oben zu den in jede
 
 #### http://ip_des_raspi:8000/loop?g=group_n=scene_t=seconds
 
-Mit Hilfe einer Loop können verschiedene Lichter für einen definierten Zeitraum blinken und dann in einen Endzustand übergehen.
+Mit Hilfe einer Loop können verschiedene Lichter für einen definierten Zeitraum blinken und dann in einen Endzustand übergehen. 
+Es werden nur die Lichter verändert, die sowohl in Gruppe group als auch in Szene scene enthalten sind. scene steht als
+Platzhalter für die Szenen scene1, scene2 und scene3. Während der Loop wird zwischen den Szenen scene1 und scene2 im Sekundentakt
+gewechselt (geblinkt). Nach Beendigung der Loop wird die Szene scene3 aktiviert.
 
-+ g=group   Es werden nur die 
+Siehe auch das weiterführende Kapitel "Szenen".
 
 
 ### Timer 
