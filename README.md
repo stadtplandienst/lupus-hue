@@ -2,19 +2,19 @@
 
 ## Steuere Philips Hue Lichter über die LUPUS XT2+ Alarmanlage!
 
-Die LUPUS XT2+ Alarmanlage bietet u.a. auch eine Reihe von Home Automation Regeln, um verschiedene Aspekte eines intelligenten Heims
+Die LUPUS XT2+ Alarmanlage bieteteine Reihe von Home Automation Regeln, um verschiedene Aspekte eines intelligenten Heims
 zu steuern. Unter anderem ist es möglich Lichter oder andere Verbraucher über die Unterputzrelais oder die Funksteckdosen zu schalten.
 
-Das ist eine tolle Funktion für die Simulation einer Anwesenheit wenn die Anlage scharf gestellt wird. Bei einer großen Anzahl von
-Lichtern geht das aber schnell ins Geld und hat auch eine Reihe von Einschränkungen:
+Das ist eine schöne Möglichkeit für die Simulation einer Anwesenheit durch Lichter wenn die Anlage scharf gestellt wird. 
+Bei einer großen Anzahl von Lichtern geht das aber schnell ins Geld und hat auch eine Reihe von Einschränkungen:
 
 - Lichter können nur ein- und ausgeschaltet werden (keine Farben, Lichttemperatur, Szenen, Übergänge etc.)
 - Das Dimmen mit dem LUPUS Unterputzrelais mit Dimmerfunktion funktioniert zumindest bei mir nicht zufriedenstellend
 - Die gegenwärtigen Home Automation Regeln bei LUPUS sind sehr eingeschränkt, insbesondere wenn man Regeln erstellen will, die den
   Lichtsensor abfragen oder den Sonnenstand berücksichtigen
 
-Aus diesem Grund habe ich ein Projekt entwickelt, mit dem eine LUPUS XT2+ mit Hilfe der "Action URL"-Regel Philips Hue (oder kompatible) 
-Lichter steuern kann.
+Aus diesem Grund habe ich ein Projekt entwickelt, mit dem eine LUPUS XT2+ mit Hilfe der "Action URL"-Regel Philips Hue 
+(oder kompatible) Lichter steuern kann.
 
 ## Voraussetzungen
 
@@ -52,9 +52,25 @@ Typische Anwendungsfälle:
 
 ## Installation & Setup
 
-### Auf dem Raspberry Pi
+### 1. Programm auf Raspberry Pi kopieren
 
-### Action-URL
+Die Dateien lupus-hue.py und lupus-hue.conf müssen in ein beliebiges Verzeichnis auf dem Raspberry Pi kopiert werden.
+Der Webservice, der die Lichtsteuerung übernimmt muss mit dem python Interpreter in Version 3.4 aufgerufen werden:
+
+$ python3.4 lupus-hue.py
+
+In der Literatur zum Raspberry Pi werden verschiedene Methoden vorgestellt, wie ein solches Kommand automatisch beim Start
+des Raspberry Pi ausgeführt werden kann.
+
+Zuvor muss aber noch die lupus-hue.conf Datei editiert werden.
+
+Folgender Eintrag muss vorgenommen werden:
+
++ hue-ip-adress: IP Adresse der Philips Hue Bridge
+
+Alle weiteren Einträge werden erst für weitergehende Einstellungen benätigt und können zunächst ignoriert werden.
+
+### 2. Action-URL auf der LUPUS XT2+ konfigurieren
 
 Der lupus-hue Webservice wird über einen HTTP Get-Request aufgerufen:
 
@@ -62,15 +78,16 @@ http://ip_des_raspi:8000/kommando?param1=wert1_param2=wert2
 
 Für ip_des_raspi ist die reale IP-Adresse des Raspberry Pi einzusetzen (also z.B. 192.168.0.111). 
 
-Der erste Teil dieses HTTP-Requests als Parameter in der Weboberfläche der LUPUS Anlage zu hinterlegen. Dazu geht man in Admin-Oberfläche zu Netzwerk -> Kameras und trägt dort ein: http://ip_des_raspi:8000/ 
+Der erste Teil dieses HTTP-Requests als Parameter in der Weboberfläche der LUPUS Anlage zu hinterlegen. 
+In der Admin-Oberfläche zu Netzwerk -> Kameras und dort eintragen: http://ip_des_raspi:8000/ 
 
 Dieser String wird später in den Home Automation Regeln über den Parameter $1 eingefügt.
 
-### Initiale Home Automationen Regeln für Weitergabe der Lux-Werte aus dem Lichtsensor
+### 3. Home Automation Regeln für Lichtsensor einrichten
 
-Soll der Lichtsensor der LUPUS Anlage für die Steuerung des Lichtes mit genutzt werden, müssen die aktuellen Lux-Werte mit vordefinierten Home Automation Regeln zwischen der LUPUS XT2 und dem Raspberry Pi synchronisiert werden.
+Wenn der Lichtsensor nicht benutzt wird, kann dieser Abschnitt übersprungen werden.
 
-Dazu sollten folgende Home Automation Regeln in der XT2 angelegt werden:
+Es müssen die folgenden Home Automation Regeln in der XT2 angelegt werden:
 
 + Wenn Lux zwischen 0 und 5 -> Immer -> Action-URL "$1/lux?x=5
 + Wenn Lux zwischen 6 und 6 -> Immer -> Action-URL "$1/lux?x=6
@@ -78,7 +95,7 @@ Dazu sollten folgende Home Automation Regeln in der XT2 angelegt werden:
 + Wenn Lux zwischen 8 und 8 -> Immer -> Action-URL "$1/lux?x=8
 + Wenn Lux zwischen 9 und 16 -> Immer -> Action-URL "$1/lux?x=9
 
-![Lupus_logo](public/img/stadt.jpg "stadt")
+xxx Bild einfügen
 
 In meinen Tests haben sich die Lux-Level von 5 ... 9 als in der Praxis relevant erwiesen. Sollten doch mehr Stufen benötigt werden
 müssen entsprechende Regeln ergänzt werden. Das Programm lupus-hue kann mit allen Werten zwischen 0 und 16 zurecht kommen.
@@ -87,18 +104,23 @@ Zum Start des lupus-heu Webservice wird der Lux-Wert intern auf 0 gesetzt bis zu
 Lichtsensors auslöst und damit der richtige Wert gesetzt wird. Alternativ kann über einen Browser der Lux-Wert auch zum Testen oder
 initial manuell gesetzt werden (siehe weiter unten: Kommando "lux").
 
+### 4. Philips Hue
+
+Ich habe dieses Programm ausschließlich mit der Standard Hue App von Philips getestet. Grundsätzlich müsste lupus-hue aber auch
+mit Apps von Dritten zusammen arbeiten.
+
+Es sollten alle Räume - in der Philips Hue API heißen diese Gruppen bzw. Groups - und Lichter über die App eingerichtet werden.
+
+Über lupus-hue können die Farbwerte nach dem Hue/Sat-Schema und Weißtöne nach der Farbtemperatur (color temperatur) eingestellt werden.
+
+Siehe dazu: https://www.developers.meethue.com/documentation/core-concepts
+
+Für die Nutzung von Szenen siehe Kapitel "Szenen".
+
 ## Das Web-API
 
-### Begrifflichkeiten und Konzepte
-
-#### Gruppen bzw. Räume
-
-#### Lichter
-
-Räume werden in der Notation des Phlips Hue API als "Groups" (Gruppen) bezeichnet. 
-
-#### Farbkonzept
-
+Hier wird zunächst das Web-API des lupus-hue Webservice erklärt, bevor weiter unten die praktischen Beispiele in Verbindung mit der
+LUPUS Anlage erklärt werden.
 
 ### Kommandos
 
