@@ -54,9 +54,17 @@ Typische Anwendungsfälle:
 
 ## Das Web-API
 
-### Begrifflichkeiten
+### Begrifflichkeiten und Konzepte
+
+#### Gruppen bzw. Räume
+
+#### Lichter
 
 Räume werden in der Notation des Phlips Hue API als "Groups" (Gruppen) bezeichnet. 
+
+#### Farbkonzept
+
+
 
 ### HTTP-Request
 
@@ -66,16 +74,60 @@ http://<ip_des_raspi>:8000/<kommando>?<param1>=<value1>_<param2>=<value2>
 
 Im Folgenden werden die verschiedenen Kommandos erklärt:
 
-### on: Lichter oder Räume ein und Ausschalten
+### Kommando "info" - Informationen zu Lichtern oder Gruppen (Räumen) ausgeben
 
-on?g=<group>|l=<light>}[_t=timer][_d=deferred][_h=hue][_s=sat][_b=brightness]
-switch group|light on an set hue/sat, optionally set timer or defer
+#### http://ip_des_raspi:8000/info?g=group
 
-on?{g=group|l=light}[_t=timer][_d=deferred][_c=colortemp][_b=brightness]
-            #
-            #       switch on group|light on an set color temperature, optionally set timer or defer
-            #
-            #   on?g=group[_t=timer][_d=deferred_x=lux_level][_n=scene]
+Gib Informationen zu Gruppe (Raum) group aus.
+
+#### http://ip_des_raspi:8000/info?g=group
+
+Gib Informationen zu Licht light aus. light ist die Nummer des Lichtes. Die Nummern der Lichter eines Raumes kann mit 
+info?g=group ermittelt werden.
+
+### Kommando "on" - Einschalten eines Lichtes oder einer Gruppe
+
+#### http://ip_des_raspi:8000/on?g=group[_t=seconds][_d=1_x=lux][_b=bri]
+
+Schalte die Gruppe (Raum) group ein und setze ggf. einen Timer bzw. verzögere die Einschaltung.
+
++ _l=light    Nummer des Lichtes 
++ _g=group    Name des Raumes wie in der Hue App gesetzt oder der Name eines "Pseudo-Raums" wie unten beschrieben.
++ _t=seconds  Setze einen Timer von seconds Sekunden, nach denen das Licht / die Gruppe wieder ausgeschaltet wird.
++ _d=1_l=lux  Wenn angegeben, wird das Einschalten verzögert, bis der Lux-Level lux oder niedriger erreicht wird.
++ _b=bri      Setze die Helligkeit auf bri (0 .. 254)
+
+Beispiel:
+
+http://192.168.0.111:8000/on?g=Flur_b=200_t=180
+
+Schaltet die Lichter im Raum "Flur" für 180 Sekunden ein und setzt die Helligkeit auf 200.
+
+#### http://ip_des_raspi:8000/on?l=light[_t=seconds][_d=1_x=lux]
+
+Wie oben aber für das Licht light.
+
+#### http://ip_des_raspi:8000/on?g=group_h=hue_s=sat][_b=bri][_t=seconds][_d=1_x=lux]
+
+Schalte die Gruppe (Raum) group ein und setze Farbe und Farbsättigung.
+
++ _h=hue      Setze den "hue" Wert des Lichts / des Raums auf hue (siehe Philips Hue API). 
++ _s=sat      Setze die Sättigung aus sat.
++ Andere Parameter wie oben
+
+http://ip_des_raspi:8000/on?l=light_h=hue_s=sat][_b=bri][_t=seconds][_d=1_x=lux]
+
+Wie oben aber für das Licht light.
+
+http://ip_des_raspi:8000/on?{g=group|l=light}[_t=seconds][_d=1_x=lux][_h=hue][_c=coltemp][_b=brightness]
+Parameter:
++ _c=coltemp  Setze die Farbtemperatur auf coltemp. Schließt sich mit hue / sat aus.
++ Andere Parameter wie oben
+
+http://ip_des_raspi:8000/on?g=group_n=scene[_t=timer][_d=deferred_x=lux_level]
+Parameter:
++ _n=scene  Aktiviere die Szene scene für.
++ Andere Parameter wie oben
             #
             #       switch group on an optionally set timer or defer
             #
