@@ -36,3 +36,12 @@ Features:
 + Loops für Effekte (z.B. für die Signalisierung eines Zustands)
 + Ausführen von Kommandos abhängig vom Lux-Wert des Lichtsensors
 + Zeitverzögertes Ausführen von Kommandos bis ein Lux-Wert erreicht ist
+
+Typische Anwendungsfälle:
++ Lichter bei Dämmerung einschalten wenn Anlage scharf
++ Lichter abends automatisch ausschalten oder Nachtlichtmodus aktivieren (Dimmung)
++ Verschiedene Lichtemperaturen für verschiedene Tageszeiten setzen
++ Lichter ausschalten, wenn es außen hell genuug ist (immer oder nur in einem bestimmten Zustand der Anlage)
++ Lichter für eine definierte Zeit einschalten bei Bewegung (gemeldet über einen LUPUS Bewegungsmelder)
++ Lichter einschalten oder blinken lassen, wenn Alarm ausgelöst wird
++ Scharfschaltungszustand der Anlage bei Betreten des Hauses über Farbe eines Lichtes signalisieren 
