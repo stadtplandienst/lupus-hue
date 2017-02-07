@@ -1,6 +1,6 @@
 # lupus-hue
 
-## Steuere Philips Hue Lichter über die LUPUS XT+ Alarmanlage !!
+## Steuere Philips Hue Lichter über die LUPUS XT2+ Alarmanlage !!
 
 Die LUPUS XT2+ Alarmanlage bietet u.a. auch eine Reihe von Home Automation Regeln, um verschiedene Aspekte eines intelligenten Heims
 zu steuern. Unter anderem ist es möglich Lichter oder andere Verbraucher über die Unterputzrelais oder die Funksteckdosen zu schalten.
@@ -56,6 +56,16 @@ Typische Anwendungsfälle:
 
 ### Action-URL
 
+Der lupus-hue Webservice wird über einen HTTP Get-Request aufgerufen:
+
+http://ip_des_raspi:8000/kommando?param1=wert1_param2=wert2
+
+Für ip_des_raspi ist die reale IP-Adresse des Raspberry Pi einzusetzen (also z.B. 192.168.0.111). 
+
+Der erste Teil dieses HTTP-Requests als Parameter in der Weboberfläche der LUPUS Anlage zu hinterlegen. Dazu geht man in Admin-Oberfläche zu Netzwerk -> Kameras und trägt dort ein: http://ip_des_raspi:8000/ 
+
+Dieser String wird später in den Home Automation Regeln über den Parameter $1 eingefügt.
+
 ### Initiale Home Automationen Regeln für Weitergabe der Lux-Werte aus dem Lichtsensor
 
 Soll der Lichtsensor der LUPUS Anlage für die Steuerung des Lichtes mit genutzt werden, müssen die aktuellen Lux-Werte mit vordefinierten Home Automation Regeln zwischen der LUPUS XT2 und dem Raspberry Pi synchronisiert werden.
@@ -88,16 +98,9 @@ Räume werden in der Notation des Phlips Hue API als "Groups" (Gruppen) bezeichn
 #### Farbkonzept
 
 
+### Kommandos
 
-### HTTP-Request
-
-Der lupus-hue Webservice wird über einen HTTP Get-Request aufgerufen:
-
-http://ip_des_raspi:8000/kommando?param1=wert1_param2=wert2
-
-Für ip_des_raspi ist die reale IP-Adresse des Raspberry Pi einzusetzen (also z.B. 192.168.0.111).
-
-Im Folgenden werden die verschiedenen Kommandos erklärt:
+Im Folgenden werden die verschiedenen Kommandos für den Webservice erklärt:
 
 ### Kommando "info" - Informationen zu Lichtern oder Gruppen (Räumen) ausgeben
 
@@ -120,11 +123,15 @@ Schalte die Gruppe (Raum) group ein und setze ggf. einen Timer bzw. verzögere d
 + _d=1_l=lux  Wenn angegeben, wird das Einschalten verzögert, bis der Lux-Level lux oder niedriger erreicht wird.
 + _b=bri      Setze die Helligkeit auf bri (0 .. 254)
 
-Beispiel:
+Beispiele:
 
-http://192.168.0.111:8000/on?g=Flur_b=200_t=180
++ http://192.168.0.111:8000/on?g=Flur_b=200_t=180
 
 Schaltet die Lichter im Raum "Flur" für 180 Sekunden ein und setzt die Helligkeit auf 200.
+
++ http://192.168.0.111:8000/on?g=all_d=1_x=6
+
+Schalte alle Lichter ein, sobald der Lux Level am Lichtsensor auf 6 gesunken ist.
 
 #### http://ip_des_raspi:8000/on?l=light[_t=seconds][_d=1_x=lux]
 
@@ -154,13 +161,15 @@ Schalte das Licht light ein und setze die Farbtemperatur auf coltemp. Andere Par
 
 Aktiviere die Szene scene für Gruppe (Raum) group. Andere Parameter wie oben.
 
+Zu Szenen siehe auch unten stehendes Kapitel "Szenen".
+
 ### Kommando "off" - Schalte Licht oder Raum aus
 
 #### http://ip_des_raspi:8000/off?g=group[_t=timer]
 
 Schalte Raum (Gruppe) group aus.
 
-+ _t=seconds  Setze einen Timer von seconds Sekunden, nach denen das Licht / die Gruppe wieder eingeschaltet(!) wird.
++ _t=seconds  Setze einen Timer von seconds Sekunden, nach denen die Gruppe wieder eingeschaltet(!) wird.
 
 #### http://ip_des_raspi:8000/off?l=light[_t=timer]
 
@@ -170,28 +179,22 @@ Schalte Licht light aus.
 
 #### http://ip_des_raspi:8000/lux?x=level
 
-Setzte den Lux-Level gemäß dem aktuellen Stand 
-            #
-            #       set lux level to lux_level
-            #
-            # loop: call loop of scenes
-            #
-            #   loop?g=group_n=scene_t=timer
-            #
-            #       Call loop of scenes for group and scene name as defined in init_scenes() for timer seconds
-            #
-            # init: initialize scenes
-            #
+Setzte den Lux-Level gemäß dem aktuellen Stand. Siehe auch oben zu den in jedem Fall zu definierenden Home Automation Regeln.
 
-## Schreiben der LUPUS Home Automation Regeln
+### Kommando "loop" - Erzeuge eine Loop
 
-### Einfache Regeln
+#### http://ip_des_raspi:8000/loop?g=group_n=scene_t=seconds
+
+Mit Hilfe einer Loop können verschiedene Lichter für einen definierten Zeitraum blinken und dann in einen Endzustand übergehen.
+
++ g=group   Es werden nur die 
+
 
 ### Timer 
 
 ### Lichtabhängige Steuerung
 
-### Szenen
+### Szenen und Loops
 
 
 
