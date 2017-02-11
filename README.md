@@ -269,3 +269,6 @@ kann man diesen Mechanismus auch benutzen um Abkürzungen für die Namen von Gru
 aber das Komma nach dem Raumnamen.
 
 ## Quellen
+
+- Philips Hue API Core Concepts: https://www.developers.meethue.com/documentation/core-concepts
+- SSDP Discovery: https://gist.github.com/dankrause/6000248
