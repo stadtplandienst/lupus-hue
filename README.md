@@ -34,10 +34,11 @@ lupus-hue hat folgende Features:
 + Räume (Groups) oder Lichter ein- und ausschalten
 + Setzen von Helligkeit, Farben oder Lichttemperatur für Räume (Groups) oder einzelne Lichter
 + Erstellen und Aufrufen von Szenen (verschiedene Einstellungen für die Lichter eines Raums)
-+ Setzen von Timern für das Ein- und Ausschalten (entspricht der "Einschalten für" von LUPUS aber auch mit "Ausschalten für")
++ Setzen von Timern für das Ein- und Ausschalten (entspricht der "Einschalten für"-Aktion von LUPUS allerdings zusätzlich mit einem "Ausschalten für")
 + Loops für Effekte (z.B. für die Signalisierung eines Zustands oder bei Alarm)
 
 Typische Anwendungsfälle:
+
 + Lichter bei Dämmerung einschalten wenn Anlage scharf
 + Lichter abends automatisch ausschalten oder Nachtlichtmodus aktivieren (Dimmung)
 + Verschiedene Lichtemperaturen für verschiedene Tageszeiten setzen
