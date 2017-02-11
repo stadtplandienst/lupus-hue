@@ -79,7 +79,8 @@ Bei einer Fritz!-Box und anderen Routern kann der Raspberry auch über einen Nam
 http://pi:8000/kommando?param1=wert1_param2=wert2
 
 Nun können Aufrufe an den lupus-hue Server als "Action-URL" Aktionen in den Home Automation-Regeln genutzt werden. Hier
-ein einfaches Beispiel für das Schalten des Lichtes 
+ein einfaches Beispiel für das Schalten des Lichtes (mit den erweiterten Home Automation Bedingungen ab LUPUS-Firmware
+0.0.2.17):
 
 ![ha regel](public/img/regel2.png "Home Automation Regel")
 
@@ -89,10 +90,10 @@ unter 8, dann wird im Raum "Flur" für 60 Sekunden des Licht eingeschaltet.
 ### 3. Philips Hue
 
 Ich habe dieses Programm ausschließlich mit der Standard Hue App von Philips getestet. Grundsätzlich müsste lupus-hue aber
-auch mit Apps von Dritten zusammen arbeiten.
+auch mit Apps von Dritten zusammenarbeiten.
 
 Es sollten alle Räume - in der Philips Hue API heißen diese Gruppen bzw. Groups - und Lichter über die App eingerichtet
-werden. Wenn hier von Gruppe die Rede ist, kann synonym auch Raum benutzt werden.
+werden.
 
 Über lupus-hue können die Farbwerte nach dem Hue/Sat-Schema und Weißtöne nach der Farbtemperatur (color temperatur)
 eingestellt werden.
@@ -102,9 +103,6 @@ Siehe dazu: https://www.developers.meethue.com/documentation/core-concepts
 Für die Nutzung von Szenen siehe Kapitel "Szenen".
 
 ## Das Web-API
-
-Hier wird zunächst das Web-API des lupus-hue Webservice erläutert, bevor weiter unten die praktischen Beispiele in
-Verbindung mit der LUPUS Anlage erklärt werden.
 
 Im Folgenden werden die verschiedenen Kommandos für den Webservice erklärt:
 
@@ -116,17 +114,17 @@ Gib Informationen zur Gruppe (Raum) "group" aus.
 
 #### http://pi:8000/info?l=light
 
-Gib Informationen zu Licht "light" aus. light ist die *Nummer* des Lichtes. Die Lichter eines Raumes können mit 
+Gib Informationen zu Licht "light" aus. "light" ist die *Nummer* des Lichtes. Die Lichter eines Raumes können mit 
 info?g=group ermittelt werden.
 
 ### Kommando "on" - Einschalten eines Lichtes oder einer Gruppe
 
-#### http://pi:8000/on?g=group[_t=seconds][_b=bri]
+#### http://pi:8000/on?g=group[_b=bri][_t=seconds]
 
-Schalte die Gruppe (Raum) group ein und setze ggf. einen Timer bzw. verzögere die Einschaltung.
+Schalte die Gruppe (Raum) "group" ein und setze ggf. einen Timer.
 
-+ _t=seconds  Setze einen Timer von seconds Sekunden, nach denen das Licht / die Gruppe wieder ausgeschaltet wird.
-+ _b=bri      Setze die Helligkeit auf bri (0 .. 254)
++ _t=seconds  Setze einen Timer von "seconds" Sekunden, nach denen die Gruppe wieder ausgeschaltet wird.
++ _b=bri      Setze die Helligkeit auf "bri" (0 .. 254)
 
 Beispiele:
 
@@ -134,20 +132,16 @@ Beispiele:
 
 Schaltet die Lichter im Raum "Flur" für 180 Sekunden ein und setzt die Helligkeit auf 200 (von 254).
 
-+ http://pi:8000/on?g=all
+#### http://pi:8000/on?l=light[_b=bri][_t=seconds]
 
-Schalte alle Lichter ein, sobald der Lux Level am Lichtsensor auf 6 gesunken ist.
-
-#### http://pi:8000/on?l=light[_t=seconds]
-
-Wie oben aber für das Licht light.
+Wie oben aber für das Licht "light".
 
 #### http://pi:8000/on?g=group_h=hue_s=sat[_b=bri][_t=seconds]
 
 Schalte die Gruppe (Raum) "group" ein und setze Farbe und Farbsättigung.
 
-+ _h=hue      Setze den "hue" Wert des Lichts / des Raums auf hue (siehe Kapitel "Farben"). 
-+ _s=sat      Setze die Sättigung aus sat.
++ _h=hue      Setze den "hue"-Wert des Lichts / des Raums 
++ _s=sat      Setze die Sättigung auf "sat".
 + Andere Parameter wie oben
 
 #### http://pi:8000/on?l=light_h=hue_s=sat[_b=bri][_t=seconds]
@@ -162,12 +156,12 @@ Schaltet das Licht 10 ein und setzt einen tiefgrünen Farbton.
 
 #### http://pi:8000/on?g=group_c=coltemp[_b=brightness][_t=seconds]
 
-Schalte die Lichter der Gruppe (Raums) group ein und setze die Farbtemperatur auf coltemp. Andere Parameter wir oben. 
-Siehe auch Kapitel "Farben".
+Schalte die Lichter der Gruppe (Raums) "group" ein und setze die Farbtemperatur auf "coltemp" (ein Wert zwischen 153 = sehr
+kalt und 500 = sehr warm). Andere Parameter wir oben. 
 
 #### http://pi:8000/on?l_light_c=coltemp[_b=brightness][_t=seconds]
 
-Schalte das Licht light ein und setze die Farbtemperatur auf coltemp. Andere Parameter wir oben.
+Schalte das Licht "light" ein und setze die Farbtemperatur auf "coltemp". Andere Parameter wir oben.
 
 #### http://pi:8000/on?g=group_n=scene[_t=seconds]
 
@@ -193,38 +187,93 @@ Schalte Licht "light" aus.
 
 Mit Hilfe einer Loop können verschiedene Lichter für einen definierten Zeitraum blinken und dann in einen Endzustand
 übergehen. 
-Es werden nur die Lichter verändert, die sowohl in Gruppe group als auch in Szene scene enthalten sind. scene steht als
-Platzhalter für die Szenen scene1, scene2 und scene3. Während der Loop wird zwischen den Szenen scene1 und scene2 
-im Sekundentakt gewechselt (geblinkt). Nach Beendigung der Loop wird die Szene scene3 aktiviert.
 
-Siehe auch das  Kapitel "Szenen".
+Siehe auch das  Kapitel "Loops".
 
 ## Fortgeschrittene Konzepte
 
 ### Szenen
 
+Anders als in der Hue App, werden Szenen bei lupus-hue nicht fest einem Raum / einer Gruppe zugeordnet. Beim Aufrufen
+einer Szene muss jedoch ein Raum angegeben werden. Es werden dann nur diejenigen Lichter verändert, die sowohl in der Gruppe
+als auch in der Szene aufgeführt sind. Als Gruppe kann "all" für alle Lichter verwendet werden.
+
+In der Konfigurationsdatei (lupus-hue.conf) werden zunächst Lichtzustände konfiguriert. Dazu wird ein Abschnitt
+[Lightstates] angelegt. Jedem Zustand wird eine Liste von Eigenschaften gemäß der Hue API Beschreibung zugeordnet.
+
+Dabei können die folgenden Keys benutzt werden:
+
+- bri: Brightness (Wert zwischen 0 und 254)
+- hue: Farbe (gemäß Hue Farbschema)
+- sat: Sättigung (Wert zwischen 0 und 254)
+- ct: Farbtemperatur (Wert zwischen 153 und 500)
+- transitiontime: Wert in Zehntelsekunden für die Übergänge zwischen den Zuständen
+- on: True -> ein, False -> aus
+
+Beispiel (in lupus-hue.conf):
+
+...
+[Lightstates]
+on = on:True
+off: on:False
+red: on:True hue:64866 sat:253 bri:254
+cold: on:True ct:200 bri:222
+...
+
+Nun können Szenen definiert werden, die auf die Lichtzustände verweisen. Dazu wird ein Abschnitt [Scenes] angelegt, der
+die Szenen aufführt und jeweils Zustände mit Lichtern verbindet.
+
+Beispiel (in lupus-hue.conf):
+
+...
+[Scenes]
+scene1 = cold:3,4
+scene2 = red:2,3 off:4
+...
+
+Wenn die Gruppe (Raum) "Flur" nun aus den Lichtern 2, 3 und 4 besteht, bewirkt der Aufruf:
+
+http://ip:8000/on?g=Flur_n=scene2
+
+dass im FLur die Lichter 2 und 3 rot und Licht 4 ausgeschaltet wird.
+
 ### Loops
+
+Eine Loop besteht aus zwei Szenen, zwischen denen im Sekundentakt hin- und hergeschaltet wird, sowie einer Gruppe, die den
+Zustand nach Beendigung der Loop beschreibt. Diese werden jeweils mit einem einheitlichen Szenennamen und einer angehängten
+"1" (erster Wechselzustand), "2" (zweiter Wechselzustand) bzw. "3" (Endezustand) in der Konfigurationsdatei
+angelegt.
+
+Es sind z.B. folgende Szenen definiert:
+
+...
+[Scenes]
+alarm1 = red:1,2,3,4
+alarm2 = cold:1,2,3,4
+alarm3 = off:1,2,3,4
+...
+
+Jetzt kann mit folgendem Kommand eine Loop z.B. als Alarmsignalisierung für 2 Minuten gestartet werden, die zwischen Rot und
+kaltem Weiss wechselt und danach alle Lichter ausschaltet:
+
+http://pi:8000/loop?g=all_n=alarm_t=120
 
 ### Raum-Listen
 
-An jeder Stelle an der in der obigen API-Beschreibung die Nennung eines Raumes möglich ist, der in der Hue Bridge angelegt
-sein muss,
-kann auch ein "Meta-Raum" angegeben werden. Das sind Listen von Räumen, die in der Konfigurationsdatei lupus-hue.conf hinterlegt werden
-können.
+An jeder Stelle an der in der obigen API-Beschreibung die Nennung einer Gruppe bzw. eines Raumes mit dem Parameter g=group
+möglich ist, kann auch eine benannte Liste an Räumen angegeben werden, die zuvor in der Konfigurationsdatei hinterlegt
+wurden. Diese Listen dienen zur Reduktion der nötigen Home Automation Regeln in der LUPUS XT-Anlage. 
 
-Meta-Räume dienen der Reduktion der nötigen Home Automation Regeln in der LUPUS XT-Anlage. Beispiel:
+Beispiel:
 
-In der Hue Bridge wurden die Räume "Wohnzimmer", "Flur" und "Kueche" angelegt. Es wird nun der Meta-Raum "Erdgeschoss" angelegt, der 
-als "Wohnzimmer" + "Flur" + "Kueche" definiert wird.
+...
+[Groups]
+WF = ('Wohnzimmer', 'Flur',)
+FK = ('Flur','Keller')
+SZ = ('Schlafzimmer',)
 
-Nun kann in jedem Kommando "Erdgeschoss" als Gruppe bzw. Raumname genutzt werden und damit die Steuerung aller Lichter in den
-drei eigentlichen Räumen gesteuert werden. 
-
-Der Raum "all" steht für alle Lichter, die in der Bridge angelegt sind. "all" wird auf die vordefinierte Hue Gruppe "0" abgebildet.
-
-Die Konfiguration für Meta-Räume in der lupus-hue.conf sieht wie folgt aus:
-
-xxx 
-
+Mit g=WF können werden Aktionen jetzt für beide Gruppen/Räume "Wohnzimmer" und "Flur" ausgeführt. Wie mit dem Beispiel "SZ"
+kann man diesen Mechanismus auch benutzen um Abkürzungen für die Namen von Gruppen/Räumen einzuführen. Wichtig ist dabei
+aber das Komma nach dem Raumnamen.
 
 ## Quellen
