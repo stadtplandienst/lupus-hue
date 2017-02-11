@@ -47,7 +47,7 @@ Typische Anwendungsfälle:
 Die Dateien lupus-hue.py und lupus-hue.conf müssen in ein beliebiges Verzeichnis auf dem Raspberry Pi kopiert werden.
 Der Webservice, der die Ligithubchtsteuerung übernimmt muss mit dem python Interpreter in Version 3.4 aufgerufen werden:
 
-![screenshot server start](public/img/server2.png "Screenshot Server-Start")
+![screenshot server start](public/img/server.png "Screenshot Server-Start")
 
 In der Literatur zum Raspberry Pi werden verschiedene Methoden vorgestellt, wie ein solches Kommando automatisch beim Start
 des Raspberry Pi ausgeführt werden kann.
