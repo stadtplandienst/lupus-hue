@@ -2,26 +2,18 @@
 
 ## Steuere Philips Hue Lichter über die LUPUS XT2+ Alarmanlage!
 
-Die LUPUS XT2+ Alarmanlage bieteteine Reihe von Home Automation Regeln, um verschiedene Aspekte eines intelligenten Heims
+Die LUPUS XT2+ Alarmanlage bietet eine Reihe von Home Automation Regeln, um verschiedene Aspekte eines intelligenten Heims
 zu steuern. Unter anderem ist es möglich Lichter oder andere Verbraucher über die Unterputzrelais oder die Funksteckdosen zu schalten.
 
 Das ist eine schöne Möglichkeit für die Simulation einer Anwesenheit durch Lichter wenn die Anlage scharf gestellt wird. 
-Bei einer großen Anzahl von Lichtern geht das aber schnell ins Geld und hat auch eine Reihe von Einschränkungen:
-
-- Lichter können nur ein- und ausgeschaltet werden (keine Farben, Lichttemperatur, Szenen, Übergänge etc.)
-- Das Dimmen mit dem LUPUS Unterputzrelais mit Dimmerfunktion funktioniert zumindest bei mir nicht zufriedenstellend
-- Die gegenwärtigen Home Automation Regeln bei LUPUS sind sehr eingeschränkt, insbesondere wenn man Regeln erstellen will, die den
-  Lichtsensor abfragen oder den Sonnenstand berücksichtigen
-
-Aus diesem Grund habe ich ein Projekt entwickelt, mit dem eine LUPUS XT2+ mit Hilfe der "Action URL"-Regel Philips Hue 
-(oder kompatible) Lichter steuern kann.
+Wer jedoch bereits intelligente LED-Lichter von Philips im Einsatz hat oder mit den von LUPUS gebotenen Möglichkeiten der Lichtsteuerung nicht weiterkommt, für den bietet sich mit diesem Projekt die Hue- und kompatible Lampen von der LUPUS XT-ANlage aus zu steuern.
 
 ## Voraussetzungen
 
 Folgendes Equipment wird vorausgesetzt:
-+ LUPUS XT2+
-+ Rapsberry Pi 3 (mit Rasbian basierend auf Jessie)
-+ Philips Hue Bridge (nur getestet mit v2)
++ LUPUS XT2+ (getestet mit FW 0.0.2.17)
++ Rapsberry Pi 3 (mit aktuellem Rasbian basierend auf Jessie)
++ Philips Hue Bridge (getestet mit Bridge v2, sollte aber auch mit v1 laufen)
 + Philips Hue oder kompatible Leuchtmittel (z.B. auch Osram Lightify oder innr)
 
 Optional:
@@ -35,11 +27,9 @@ Optional:
 lupus-hue hat folgende Features:
 + Räume (Groups) oder Lichter ein- und ausschalten
 + Setzen von Helligkeit, Farben oder Lichttemperatur für Räume (Groups) oder einzelne Lichter
-+ Aufrufen von Szenen (verschiedene Einstellungen für die Lichter eines Raums)
++ Erstellen und Aufrufen von Szenen (verschiedene Einstellungen für die Lichter eines Raums)
 + Setzen von Timern für das Ein- und Ausschalten (entspricht der "Einschalten für" von LUPUS aber auch mit "Ausschalten für")
-+ Loops für Effekte (z.B. für die Signalisierung eines Zustands)
-+ Ausführen von Kommandos abhängig vom Lux-Wert des Lichtsensors
-+ Zeitverzögertes Ausführen von Kommandos bis ein Lux-Wert erreicht ist
++ Loops für Effekte (z.B. für die Signalisierung eines Zustands oder bei Alarm)
 
 Typische Anwendungsfälle:
 + Lichter bei Dämmerung einschalten wenn Anlage scharf
@@ -55,7 +45,7 @@ Typische Anwendungsfälle:
 ### 1. Programm auf Raspberry Pi kopieren
 
 Die Dateien lupus-hue.py und lupus-hue.conf müssen in ein beliebiges Verzeichnis auf dem Raspberry Pi kopiert werden.
-Der Webservice, der die Lichtsteuerung übernimmt muss mit dem python Interpreter in Version 3.4 aufgerufen werden:
+Der Webservice, der die Ligithubchtsteuerung übernimmt muss mit dem python Interpreter in Version 3.4 aufgerufen werden:
 
 $ python3.4 lupus-hue.py
 
