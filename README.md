@@ -72,14 +72,15 @@ muss so konfiguriert sein, dass dem Raspberry Pi immer dieselbe IP-Adresse zugew
 
 Bei einer Fritz!-Box und anderen Routern kann der Raspberry auch über einen Namen angesprochen werden. Z.B.:
 
-http://raspberrypi:8000/kommando?param1=wert1_param2=wert2
+http://pi:8000/kommando?param1=wert1_param2=wert2
 
 Nun können Aufrufe an den lupus-hue Server als "Action-URL" Aktionen in den Home Automation-Regeln genutzt werden. Hier
 ein einfaches Beispiel für das Schalten des Lichtes 
 
 ![ha regel](public/img/regel2.png "Home Automation Regel")
 
-Dieser String wird später in den Home Automation Regeln über den Parameter $1 eingefügt.
+Wird (durch einen Bewegungsmelder) ein Sensor-Event ausgelöst UND ist der Lux-Wert, der vom Lichtsensor gemeldet wird, 
+unter 8, dann wird im Raum "Flur" für 60 Sekunden des Licht eingeschaltet.
 
 
 ### 4. Philips Hue
