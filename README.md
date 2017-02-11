@@ -210,13 +210,7 @@ Dabei können die folgenden Keys benutzt werden:
 
 Beispiel (in lupus-hue.conf):
 
-...
-[Lightstates]
-on = on:True
-off: on:False
-red: on:True hue:64866 sat:253 bri:254
-cold: on:True ct:200 bri:222
-...
+![lightstates](public/img/lightstates.png "Lightstates in lupus-hue.conf")
 
 Nun können Szenen definiert werden, die auf die Lichtzustände verweisen. Dazu wird ein Abschnitt [Scenes] angelegt, der
 die Szenen aufführt und jeweils Zustände mit Lichtern verbindet.
@@ -244,12 +238,12 @@ angelegt.
 
 Es sind z.B. folgende Szenen definiert:
 
-...
-[Scenes]
-alarm1 = red:1,2,3,4
-alarm2 = cold:1,2,3,4
-alarm3 = off:1,2,3,4
-...
+  ...
+  [Scenes]
+  alarm1 = red:1,2,3,4
+  alarm2 = cold:1,2,3,4
+  alarm3 = off:1,2,3,4
+  ...
 
 Jetzt kann mit folgendem Kommand eine Loop z.B. als Alarmsignalisierung für 2 Minuten gestartet werden, die zwischen Rot und
 kaltem Weiss wechselt und danach alle Lichter ausschaltet:
