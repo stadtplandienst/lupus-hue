@@ -1,5 +1,7 @@
 # lupus-hue
 
+![xt2](public/img/xt2.png "XT2") ![hue](public/img/hue.png "Hue")
+
 ## Steuere Philips Hue Lichter über die LUPUS XT2+ Alarmanlage
 
 Die LUPUS XT2+ Alarmanlage bietet eine Reihe von Home Automation Regeln, um verschiedene Aspekte eines intelligenten Heims
