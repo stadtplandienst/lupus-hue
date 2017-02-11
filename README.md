@@ -45,20 +45,21 @@ Typische Anwendungsfälle:
 ### 1. Programm auf Raspberry Pi kopieren
 
 Die Dateien lupus-hue.py und lupus-hue.conf müssen in ein beliebiges Verzeichnis auf dem Raspberry Pi kopiert werden.
-Der Webservice, der die Ligithubchtsteuerung übernimmt muss mit dem python Interpreter in Version 3.4 aufgerufen werden:
+Der Webservice, der die Lichtsteuerung übernimmt muss mit dem python-Interpreter in Version 3.4 aufgerufen (nicht v2.x)
+aufgerufen werden:
 
 ![screenshot server start](public/img/server2.png "Screenshot Server-Start")
+
+Der lupus-hue Server sucht im lokalen Netzwerk nach der Philips Hue Bridge. Wird diese gefunden wird die IP-Adresse in die
+Konfigurationsdatei lupus-hue.conf übernommen. Sollte die Bridge micht automatisch gefunden werden, kann diese auch händisch
+in der Konfigurationsdatei eingetragen werden. Nach dem Entdecken der Bridge muss dort der Link-Button gedrückt werden, damit
+der Server und die Bridge gelinkt werden. Der User-Token wird ebenso in der Konfigurationsdatei gespeichert.
 
 In der Literatur zum Raspberry Pi werden verschiedene Methoden vorgestellt, wie ein solches Kommando automatisch beim Start
 des Raspberry Pi ausgeführt werden kann.
 
-Zuvor muss aber noch die lupus-hue.conf Datei editiert werden.
-
-Folgender Eintrag muss vorgenommen werden:
-
-+ hue-ip-adress: IP Adresse der Philips Hue Bridge
-
-Alle weiteren Einträge werden erst für weitergehende Einstellungen benätigt und können zunächst ignoriert werden.
+Der lupus-hue Server startet unter Port 8000. Dieser kann ebenso in der onfigurationsdatei verändert werden. Alle weiteren
+Einträge lupus-hue.conf werden erst für weitergehende Funktionen benötigt und können zunächst ignoriert werden.
 
 ### 2. Action-URL auf der LUPUS XT2+ konfigurieren
 
@@ -69,35 +70,16 @@ http://ip_des_raspi:8000/kommando?param1=wert1_param2=wert2
 Für ip_des_raspi ist die reale IP-Adresse des Raspberry Pi einzusetzen (also z.B. 192.168.0.111). Der Router im Heimnetz
 muss so konfiguriert sein, dass dem Raspberry Pi immer dieselbe IP-Adresse zugewiesen wird.
 
-Der erste Teil dieses HTTP-Requests ist als Parameter in der Weboberfläche der LUPUS Anlage zu hinterlegen. 
-In der Admin-Oberfläche zu Netzwerk -> Kameras und dort eintragen: http://ip_des_raspi:8000/ 
+Bei einer Fritz!-Box und anderen Routern kann der Raspberry auch über einen Namen angesprochen werden. Z.B.:
+
+http://raspberrypi:8000/kommando?param1=wert1_param2=wert2
+
+Nun Aufrufe an den lupus-hue Server als "Action-URL" Aktionen in den Home Automation-Regeln genutzt werden:
 
 xxx Bild einfügen
 
 Dieser String wird später in den Home Automation Regeln über den Parameter $1 eingefügt.
 
-### 3. Home Automation Regeln für Lichtsensor einrichten
-
-Wenn der Lichtsensor nicht benutzt wird, kann dieser Abschnitt übersprungen werden.
-
-Es müssen die folgenden Home Automation Regeln in der XT2 angelegt werden:
-
-xxx Bild einfügen
-
-+ Wenn Lux zwischen 0 und 5 -> Immer -> Action-URL "$1/lux?x=5
-+ Wenn Lux zwischen 6 und 6 -> Immer -> Action-URL "$1/lux?x=6
-+ Wenn Lux zwischen 7 und 7 -> Immer -> Action-URL "$1/lux?x=7
-+ Wenn Lux zwischen 8 und 8 -> Immer -> Action-URL "$1/lux?x=8
-+ Wenn Lux zwischen 9 und 16 -> Immer -> Action-URL "$1/lux?x=9
-
-xxx Bild einfügen
-
-In meinen Tests haben sich die Lux-Level von 5 ... 9 als in der Praxis relevant erwiesen. Sollten doch mehr Stufen benötigt werden
-müssen entsprechende Regeln ergänzt werden. Das Programm lupus-hue kann mit allen Werten zwischen 0 und 16 zurecht kommen.
-
-Zum Start des lupus-heu Webservice wird der Lux-Wert intern auf 0 gesetzt bis zum ersten Mal eine Home Automation Regel des
-Lichtsensors auslöst und damit der richtige Wert gesetzt wird. Alternativ kann über einen Browser der Lux-Wert auch zum Testen oder
-initial manuell gesetzt werden (siehe weiter unten: Kommando "lux").
 
 ### 4. Philips Hue
 
