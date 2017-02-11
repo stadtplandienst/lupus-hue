@@ -3,20 +3,25 @@
 ## Steuere Philips Hue Lichter über die LUPUS XT2+ Alarmanlage!
 
 Die LUPUS XT2+ Alarmanlage bietet eine Reihe von Home Automation Regeln, um verschiedene Aspekte eines intelligenten Heims
-zu steuern. Unter anderem ist es möglich Lichter oder andere Verbraucher über die Unterputzrelais oder die Funksteckdosen zu schalten.
+zu steuern. Unter anderem ist es möglich Lichter oder andere Verbraucher über die Unterputzrelais oder die Funksteckdosen 
+zu schalten. Das ist eine schöne Möglichkeit für die Simulation einer Anwesenheit durch Lichter wenn die Anlage scharf
+gestellt wird. 
 
-Das ist eine schöne Möglichkeit für die Simulation einer Anwesenheit durch Lichter wenn die Anlage scharf gestellt wird. 
-Wer jedoch bereits intelligente LED-Lichter von Philips im Einsatz hat oder mit den von LUPUS gebotenen Möglichkeiten der Lichtsteuerung nicht weiterkommt, für den bietet sich mit diesem Projekt die Hue- und kompatible Lampen von der LUPUS XT-ANlage aus zu steuern.
+Wer jedoch bereits intelligente LED-Lichter von Philips im Einsatz hat oder mit den von LUPUS gebotenen Möglichkeiten der
+Lichtsteuerung nicht weiterkommt, für den bietet sich mit diesem Projekt die Möglichkeit, Hue- und kompatible Lampen 
+von der LUPUS XT-Anlage aus zu steuern.
 
 ## Voraussetzungen
 
 Folgendes Equipment wird vorausgesetzt:
+
 + LUPUS XT2+ (getestet mit FW 0.0.2.17)
 + Rapsberry Pi 3 (mit aktuellem Rasbian basierend auf Jessie)
 + Philips Hue Bridge (getestet mit Bridge v2, sollte aber auch mit v1 laufen)
 + Philips Hue oder kompatible Leuchtmittel (z.B. auch Osram Lightify oder innr)
 
 Optional:
+
 + LUPUS Lichtsensor (für lichtabhängige Steuerung)
 + LUPUS Bewegungsmelder (für bewegungsabhängige Steuerung)
 + OSRAM Lightify Plug (günstige Funksteckdose)
@@ -25,6 +30,7 @@ Optional:
 ## Features & Anwendungsfälle
 
 lupus-hue hat folgende Features:
+
 + Räume (Groups) oder Lichter ein- und ausschalten
 + Setzen von Helligkeit, Farben oder Lichttemperatur für Räume (Groups) oder einzelne Lichter
 + Erstellen und Aufrufen von Szenen (verschiedene Einstellungen für die Lichter eines Raums)
@@ -45,20 +51,17 @@ Typische Anwendungsfälle:
 ### 1. Programm auf Raspberry Pi kopieren
 
 Die Dateien lupus-hue.py und lupus-hue.conf müssen in ein beliebiges Verzeichnis auf dem Raspberry Pi kopiert werden.
-Der Webservice, der die Lichtsteuerung übernimmt muss mit dem python-Interpreter in Version 3.4 aufgerufen (nicht v2.x)
+Der Webservice, der die Lichtsteuerung übernimmt, muss mit dem python-Interpreter in Version 3.4 aufgerufen (nicht v2.x)
 aufgerufen werden:
 
 ![screenshot server start](public/img/server2.png "Screenshot Server-Start")
 
-Der lupus-hue Server sucht im lokalen Netzwerk nach der Philips Hue Bridge. Wird diese gefunden wird die IP-Adresse in die
+Der lupus-hue Server sucht im lokalen Netzwerk nach der Philips Hue Bridge. Wird diese gefunden, wird die IP-Adresse in die
 Konfigurationsdatei lupus-hue.conf übernommen. Sollte die Bridge micht automatisch gefunden werden, kann diese auch händisch
 in der Konfigurationsdatei eingetragen werden. Nach dem Entdecken der Bridge muss dort der Link-Button gedrückt werden, damit
-der Server und die Bridge gelinkt werden. Der User-Token wird ebenso in der Konfigurationsdatei gespeichert.
+der Server gegenüber der Bridge autorisiert wird. Der User-Token wird ebenso in der Konfigurationsdatei gespeichert.
 
-In der Literatur zum Raspberry Pi werden verschiedene Methoden vorgestellt, wie ein solches Kommando automatisch beim Start
-des Raspberry Pi ausgeführt werden kann.
-
-Der lupus-hue Server startet unter Port 8000. Dieser kann ebenso in der onfigurationsdatei verändert werden. Alle weiteren
+Der lupus-hue Server startet unter Port 8000. Dies kann ebenso in der Konfigurationsdatei verändert werden. Alle weiteren
 Einträge lupus-hue.conf werden erst für weitergehende Funktionen benötigt und können zunächst ignoriert werden.
 
 ### 2. Action-URLs auf der LUPUS XT2+ konfigurieren
@@ -82,16 +85,16 @@ ein einfaches Beispiel für das Schalten des Lichtes
 Wird (durch einen Bewegungsmelder) ein Sensor-Event ausgelöst UND ist der Lux-Wert, der vom Lichtsensor gemeldet wird, 
 unter 8, dann wird im Raum "Flur" für 60 Sekunden des Licht eingeschaltet.
 
+### 3. Philips Hue
 
-### 4. Philips Hue
+Ich habe dieses Programm ausschließlich mit der Standard Hue App von Philips getestet. Grundsätzlich müsste lupus-hue aber
+auch mit Apps von Dritten zusammen arbeiten.
 
-Ich habe dieses Programm ausschließlich mit der Standard Hue App von Philips getestet. Grundsätzlich müsste lupus-hue aber auch
-mit Apps von Dritten zusammen arbeiten.
+Es sollten alle Räume - in der Philips Hue API heißen diese Gruppen bzw. Groups - und Lichter über die App eingerichtet
+werden. Wenn hier von Gruppe die Rede ist, kann synonym auch Raum benutzt werden.
 
-Es sollten alle Räume - in der Philips Hue API heißen diese Gruppen bzw. Groups - und Lichter über die App eingerichtet werden. Wenn
-hier von Gruppe die Rede ist, kann synonym auch Raum benutzt werden.
-
-Über lupus-hue können die Farbwerte nach dem Hue/Sat-Schema und Weißtöne nach der Farbtemperatur (color temperatur) eingestellt werden.
+Über lupus-hue können die Farbwerte nach dem Hue/Sat-Schema und Weißtöne nach der Farbtemperatur (color temperatur)
+eingestellt werden.
 
 Siehe dazu: https://www.developers.meethue.com/documentation/core-concepts
 
@@ -99,169 +102,112 @@ Für die Nutzung von Szenen siehe Kapitel "Szenen".
 
 ## Das Web-API
 
-Hier wird zunächst das Web-API des lupus-hue Webservice erläutert, bevor weiter unten die praktischen Beispiele in Verbindung mit der
-LUPUS Anlage erklärt werden.
+Hier wird zunächst das Web-API des lupus-hue Webservice erläutert, bevor weiter unten die praktischen Beispiele in
+Verbindung mit der LUPUS Anlage erklärt werden.
 
 Im Folgenden werden die verschiedenen Kommandos für den Webservice erklärt:
 
 ### Kommando "info" - Informationen zu Lichtern oder Gruppen (Räumen) ausgeben
 
-#### http://ip_des_raspi:8000/info?g=group
+#### http://pi:8000/info?g=group
 
-Gib Informationen zu Gruppe (Raum) group aus.
+Gib Informationen zur Gruppe (Raum) "group" aus.
 
-#### http://ip_des_raspi:8000/info?g=group
+#### http://pi:8000/info?l=light
 
-Gib Informationen zu Licht light aus. light ist die Nummer des Lichtes. Die Nummern der Lichter eines Raumes kann mit 
+Gib Informationen zu Licht "light" aus. light ist die *Nummer* des Lichtes. Die Lichter eines Raumes können mit 
 info?g=group ermittelt werden.
 
 ### Kommando "on" - Einschalten eines Lichtes oder einer Gruppe
 
-#### http://ip_des_raspi:8000/on?g=group[_t=seconds][_d=1_x=lux][_b=bri]
+#### http://pi:8000/on?g=group[_t=seconds][_b=bri]
 
 Schalte die Gruppe (Raum) group ein und setze ggf. einen Timer bzw. verzögere die Einschaltung.
 
 + _t=seconds  Setze einen Timer von seconds Sekunden, nach denen das Licht / die Gruppe wieder ausgeschaltet wird.
-+ _d=1_l=lux  Wenn angegeben, wird das Einschalten verzögert, bis der Lux-Level lux oder niedriger erreicht wird.
 + _b=bri      Setze die Helligkeit auf bri (0 .. 254)
 
 Beispiele:
 
-+ http://192.168.0.111:8000/on?g=Flur_b=200_t=180
++ http://pi:8000/on?g=Flur_b=200_t=180
 
 Schaltet die Lichter im Raum "Flur" für 180 Sekunden ein und setzt die Helligkeit auf 200 (von 254).
 
-+ http://192.168.0.111:8000/on?g=all_d=1_x=6
++ http://pi:8000/on?g=all
 
 Schalte alle Lichter ein, sobald der Lux Level am Lichtsensor auf 6 gesunken ist.
 
-#### http://ip_des_raspi:8000/on?l=light[_t=seconds][_d=1_x=lux]
+#### http://pi:8000/on?l=light[_t=seconds]
 
 Wie oben aber für das Licht light.
 
-#### http://ip_des_raspi:8000/on?g=group_h=hue_s=sat[_b=bri][_t=seconds][_d=1_x=lux]
+#### http://pi:8000/on?g=group_h=hue_s=sat[_b=bri][_t=seconds]
 
-Schalte die Gruppe (Raum) group ein und setze Farbe und Farbsättigung.
+Schalte die Gruppe (Raum) "group" ein und setze Farbe und Farbsättigung.
 
 + _h=hue      Setze den "hue" Wert des Lichts / des Raums auf hue (siehe Kapitel "Farben"). 
 + _s=sat      Setze die Sättigung aus sat.
 + Andere Parameter wie oben
 
-#### http://ip_des_raspi:8000/on?l=light_h=hue_s=sat[_b=bri][_t=seconds][_d=1_x=lux]
+#### http://pi:8000/on?l=light_h=hue_s=sat[_b=bri][_t=seconds]
 
-Wie oben aber für das Licht light.
+Wie oben aber für das Licht "light".
 
 Beispiel:
 
-+ http://192.168.0.111:8000/on?l=10_h=21986_s=253
++ http://pi:8000/on?l=10_h=21986_s=253
 
 Schaltet das Licht 10 ein und setzt einen tiefgrünen Farbton.
 
-#### http://ip_des_raspi:8000/on?g=group_c=coltemp[_b=brightness][_t=seconds][_d=1_x=lux]
+#### http://pi:8000/on?g=group_c=coltemp[_b=brightness][_t=seconds]
 
-Schalte die Lichter der Gruppe (Raums) group ein und setze die Farbtemperatur auf coltemp. Andere Parameter wir oben. Siehe auch Kapitel "Farben".
+Schalte die Lichter der Gruppe (Raums) group ein und setze die Farbtemperatur auf coltemp. Andere Parameter wir oben. 
+Siehe auch Kapitel "Farben".
 
-#### http://ip_des_raspi:8000/on?l_light_c=coltemp[_b=brightness][_t=seconds][_d=1_x=lux]
+#### http://pi:8000/on?l_light_c=coltemp[_b=brightness][_t=seconds]
 
 Schalte das Licht light ein und setze die Farbtemperatur auf coltemp. Andere Parameter wir oben.
 
-#### http://ip_des_raspi:8000/on?g=group_n=scene[_t=timer][_d=deferred_x=lux_level]
+#### http://pi:8000/on?g=group_n=scene[_t=seconds]
 
-Aktiviere die Szene scene für Gruppe (Raum) group. Andere Parameter wie oben.
+Aktiviere die Szene "scene" für Gruppe (Raum) "group". Andere Parameter wie oben.
 
 Zu Szenen siehe auch unten stehendes Kapitel "Szenen".
 
 ### Kommando "off" - Schalte Licht oder Raum aus
 
-#### http://ip_des_raspi:8000/off?g=group[_t=timer]
+#### http://pi:8000/off?g=group[_t=seconds]
 
-Schalte Raum (Gruppe) group aus.
+Schalte Raum (Gruppe) "group" aus.
 
-+ _t=seconds  Setze einen Timer von seconds Sekunden, nach denen die Gruppe wieder eingeschaltet(!) wird.
++ _t=seconds  Setze einen Timer von "seconds" Sekunden, nach dem die Gruppe wieder eingeschaltet(!) wird.
 
-#### http://ip_des_raspi:8000/off?l=light[_t=timer]
+#### http://pi:8000/off?l=light[_t=seconds]
 
-Schalte Licht light aus.
-
-### Kommando "lux" - Setze Lichtwert aus LUPUS Alarmanlage
-
-#### http://ip_des_raspi:8000/lux?x=level
-
-Setzte den Lux-Level gemäß dem aktuellen Stand. Siehe auch oben zu den in jedem Fall zu definierenden Home Automation Regeln.
+Schalte Licht "light" aus.
 
 ### Kommando "loop" - Erzeuge eine Loop
 
-#### http://ip_des_raspi:8000/loop?g=group_n=scene_t=seconds
+#### http://pi:8000/loop?g=group_n=scene_t=seconds
 
-Mit Hilfe einer Loop können verschiedene Lichter für einen definierten Zeitraum blinken und dann in einen Endzustand übergehen. 
+Mit Hilfe einer Loop können verschiedene Lichter für einen definierten Zeitraum blinken und dann in einen Endzustand
+übergehen. 
 Es werden nur die Lichter verändert, die sowohl in Gruppe group als auch in Szene scene enthalten sind. scene steht als
-Platzhalter für die Szenen scene1, scene2 und scene3. Während der Loop wird zwischen den Szenen scene1 und scene2 im Sekundentakt
-gewechselt (geblinkt). Nach Beendigung der Loop wird die Szene scene3 aktiviert.
+Platzhalter für die Szenen scene1, scene2 und scene3. Während der Loop wird zwischen den Szenen scene1 und scene2 
+im Sekundentakt gewechselt (geblinkt). Nach Beendigung der Loop wird die Szene scene3 aktiviert.
 
 Siehe auch das  Kapitel "Szenen".
 
-## Einfache Anwendungen
-
-###  Schalten des Lichtes zu einer Zeit und abhängig vom Scharf-Zustand 
-
-Eine wichtige und sinnvolle Anwendung ist das Einschalten von Lichtern im Modus "arm". Hierzu kann folgende einfache Home Automation
-Regel in der LUPUS Anage dienen:
-
-xxx
-
-Wenn Area1 und Modus-Wechsel "arm" -> Zeit 17:00 bis 17:00 -> Action-URL $1/on?g=Wohnzimmer_b=180
-
-Schaltet immer um 17:00 wenn die Anlage in Area1 scharf ist im Wohnzimmer die Lichter ein und dimmt die Helligkeit auf 180 (von 254.
-
-###  Schalten des Lichtes abhängig von der Helligkeit 
-
-Wird der Lichtsensor eingesetzt, kann die Steuerung des Lichtes abhängig von der Meldung des Sensors erfolgen:
-
-xxx
-
-Wenn Area1 und Modus-Wechsel "disarm" -> Zeit 7:00 bis 7:00 -> Action-URL $1/on?g=Kueche_x=7
-
-Schaltet immer morgens um 7:00 das Licht in der Küche ein, aber nur wenn die Anlage unscharf ist (Modus disarm) und wenn
-die Helligkeit nicht größer als 7 ist. D.h. sollte um 7:00 der Sensor Lux 8 oder höher gemeldet haben, wird das Licht nicht
-geschaltet.
-
-###  Verzögertes Schalten zur Dämmerung
-
-Einer der größten Einschränkungen in der jetzigen Version der LUPUS XT ist die unzureichende Möglichkeit, die Helligkeit und
-den Modus (Scharf-Zustand) der Anlage vernünftig zu kombinieren:
-
-- Die Helligkeit 
-
-
-
-Dazu gibt es das verzögerte Schalten abhängig von der Helligkeit. 
-
-Beispiel:
-
-
-
-xxx
-
-Wenn Area1 und Modus-Wechsel "disarm" -> Zeit 7:00 bis 7:00 -> Action-URL $1/on?g=Kueche_x=7
-
-Schaltet immer morgens um 7:00 das Licht in der Küche ein, aber nur wenn die Anlage unscharf ist (Modus disarm) und wenn
-die Helligkeit nicht größer als 7 ist. D.h. sollte um 7:00 der Sensor Lux 8 oder höher gemeldet haben, wird das Licht nicht
-geschaltet.
-
-
-
 ## Fortgeschrittene Konzepte
 
-### Timer 
+### Szenen
 
-### Verzögertes Schalten bei Licht-Level
+### Loops
 
-Durch
-### Szenen und Loops
+### Raum-Listen
 
-### Meta-Räume
-
-An jeder Stelle an der in der obigen API-Beschreibung die Nennung eines Raumes möglich ist, der in der Hue Bridge angelegt sein muss,
+An jeder Stelle an der in der obigen API-Beschreibung die Nennung eines Raumes möglich ist, der in der Hue Bridge angelegt
+sein muss,
 kann auch ein "Meta-Raum" angegeben werden. Das sind Listen von Räumen, die in der Konfigurationsdatei lupus-hue.conf hinterlegt werden
 können.
 
