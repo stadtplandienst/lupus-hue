@@ -52,7 +52,7 @@ Typische Anwendungsfälle:
 ### 1. Programm auf Raspberry Pi kopieren
 
 Die Dateien lupus-hue.py und lupus-hue.conf müssen in ein beliebiges Verzeichnis auf dem Raspberry Pi kopiert werden.
-Der Webservice, der die Lichtsteuerung übernimmt, muss mit dem python-Interpreter in Version 3.4 aufgerufen (nicht v2.x)
+Der Webservice, der die Lichtsteuerung übernimmt, muss mit dem python-Interpreter in Version 3.4 (nicht v2.x)
 aufgerufen werden:
 
 ![screenshot server start](public/img/server2.png "Screenshot Server-Start")
