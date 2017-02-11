@@ -1,6 +1,6 @@
 # lupus-hue
 
-## Steuere Philips Hue Lichter über die LUPUS XT2+ Alarmanlage!
+## Steuere Philips Hue Lichter über die LUPUS XT2+ Alarmanlage
 
 Die LUPUS XT2+ Alarmanlage bietet eine Reihe von Home Automation Regeln, um verschiedene Aspekte eines intelligenten Heims
 zu steuern. Unter anderem ist es möglich Lichter oder andere Verbraucher über die Unterputzrelais oder die Funksteckdosen 
@@ -27,7 +27,7 @@ Optional:
 + OSRAM Lightify Plug (günstige Funksteckdose)
 + Andere Sensoren wie sie in den Home Automation Regeln genutzt werden 
 
-## Features & Anwendungsfälle
+## Features und Anwendungsfälle
 
 lupus-hue hat folgende Features:
 
@@ -47,9 +47,24 @@ Typische Anwendungsfälle:
 + Lichter einschalten oder blinken lassen, wenn Alarm ausgelöst wird
 + Scharfschaltungszustand der Anlage bei Betreten des Hauses über Farbe eines Lichtes signalisieren 
 
-## Installation & Setup
+## Installation und Setup
 
-### 1. Programm auf Raspberry Pi kopieren
+### 1. Räume und Lichter mit Philips Hue App konfigurieren
+
+Ich habe dieses Programm ausschließlich mit der Standard Hue App von Philips getestet. Grundsätzlich müsste lupus-hue aber
+auch mit Apps von Drittanbietern zusammenarbeiten.
+
+Es sollten alle Räume - in der Philips Hue API heißen diese Gruppen bzw. Groups - und Lichter über die App eingerichtet
+werden. _Nach dem Einrichten eines neuen Raums muss lupus-hue neu gestartet werden!_
+
+Über lupus-hue können die Farbwerte nach dem Hue/Sat-Schema und Weißtöne nach der Farbtemperatur (color temperatur)
+eingestellt werden.
+
+Siehe dazu: https://www.developers.meethue.com/documentation/core-concepts
+
+Für die Nutzung von Szenen siehe Kapitel "Szenen".
+
+### 2. Programm auf Raspberry Pi kopieren und starten
 
 Die Dateien lupus-hue.py und lupus-hue.conf müssen in ein beliebiges Verzeichnis auf dem Raspberry Pi kopiert werden.
 Der Webservice, der die Lichtsteuerung übernimmt, muss mit dem python-Interpreter in Version 3.4 (nicht v2.x)
@@ -65,7 +80,7 @@ der Server gegenüber der Bridge autorisiert wird. Der User-Token wird ebenso in
 Der lupus-hue Server startet unter Port 8000. Dies kann ebenso in der Konfigurationsdatei verändert werden. Alle weiteren
 Einträge lupus-hue.conf werden erst für weitergehende Funktionen benötigt und können zunächst ignoriert werden.
 
-### 2. Action-URLs auf der LUPUS XT2+ konfigurieren
+### 3. Home Automation-Regeln in der LUPUS XT2+ konfigurieren
 
 Der lupus-hue Webservice auf dem Raspberry Pi wird über einen HTTP Get-Request aufgerufen:
 
@@ -84,25 +99,10 @@ ein einfaches Beispiel für das Schalten des Lichtes (mit den erweiterten Home A
 
 ![ha regel](public/img/regel2.png "Home Automation Regel")
 
-Wird (durch einen Bewegungsmelder) ein Sensor-Event ausgelöst UND ist der Lux-Wert, der vom Lichtsensor gemeldet wird, 
+Wird (z.B. durch einen Bewegungsmelder) das Sensor-Event 1 ausgelöst UND ist der Lux-Wert, der vom Lichtsensor gemeldet wird, 
 unter 8, dann wird im Raum "Flur" für 60 Sekunden des Licht eingeschaltet.
 
 Wichtig ist, dass die verschiedenen Parameter jeweils mit einem Unterstrich ("_") getrennt werden.
-
-### 3. Philips Hue
-
-Ich habe dieses Programm ausschließlich mit der Standard Hue App von Philips getestet. Grundsätzlich müsste lupus-hue aber
-auch mit Apps von Drittanbietern zusammenarbeiten.
-
-Es sollten alle Räume - in der Philips Hue API heißen diese Gruppen bzw. Groups - und Lichter über die App eingerichtet
-werden. Nach dem Einrichten eines neuen Raums muss lupus-hue neu gestartet werden!
-
-Über lupus-hue können die Farbwerte nach dem Hue/Sat-Schema und Weißtöne nach der Farbtemperatur (color temperatur)
-eingestellt werden.
-
-Siehe dazu: https://www.developers.meethue.com/documentation/core-concepts
-
-Für die Nutzung von Szenen siehe Kapitel "Szenen".
 
 ## Das Web-API
 
