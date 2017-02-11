@@ -61,7 +61,7 @@ des Raspberry Pi ausgeführt werden kann.
 Der lupus-hue Server startet unter Port 8000. Dieser kann ebenso in der onfigurationsdatei verändert werden. Alle weiteren
 Einträge lupus-hue.conf werden erst für weitergehende Funktionen benötigt und können zunächst ignoriert werden.
 
-### 2. Action-URL auf der LUPUS XT2+ konfigurieren
+### 2. Action-URLs auf der LUPUS XT2+ konfigurieren
 
 Der lupus-hue Webservice auf dem Raspberry Pi wird über einen HTTP Get-Request aufgerufen:
 
@@ -74,9 +74,10 @@ Bei einer Fritz!-Box und anderen Routern kann der Raspberry auch über einen Nam
 
 http://raspberrypi:8000/kommando?param1=wert1_param2=wert2
 
-Nun Aufrufe an den lupus-hue Server als "Action-URL" Aktionen in den Home Automation-Regeln genutzt werden:
+Nun können Aufrufe an den lupus-hue Server als "Action-URL" Aktionen in den Home Automation-Regeln genutzt werden. Hier
+ein einfaches Beispiel für das Schalten des Lichtes 
 
-![ha regel](public/img/regel.png "Home Automation Regel")
+![ha regel](public/img/regel2.png "Home Automation Regel")
 
 Dieser String wird später in den Home Automation Regeln über den Parameter $1 eingefügt.
 
