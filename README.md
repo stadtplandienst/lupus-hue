@@ -76,7 +76,7 @@ http://raspberrypi:8000/kommando?param1=wert1_param2=wert2
 
 Nun Aufrufe an den lupus-hue Server als "Action-URL" Aktionen in den Home Automation-Regeln genutzt werden:
 
-xxx Bild einfügen
+![ha regel](public/img/regel.tiff "Home Automation Regel")
 
 Dieser String wird später in den Home Automation Regeln über den Parameter $1 eingefügt.
 
