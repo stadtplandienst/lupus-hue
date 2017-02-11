@@ -58,8 +58,8 @@ aufgerufen werden:
 ![screenshot server start](public/img/server2.png "Screenshot Server-Start")
 
 Der lupus-hue Server sucht im lokalen Netzwerk nach der Philips Hue Bridge. Wird diese gefunden, wird die IP-Adresse in die
-Konfigurationsdatei lupus-hue.conf übernommen. Sollte die Bridge micht automatisch gefunden werden, kann diese auch händisch
-in der Konfigurationsdatei eingetragen werden. Nach dem Entdecken der Bridge muss dort der Link-Button gedrückt werden, damit
+Konfigurationsdatei lupus-hue.conf übernommen. Sollte die Bridge nicht automatisch gefunden werden, kann diese auch händisch
+in der Konfigurationsdatei eingetragen werden. Nach dem Entdecken der Bridge muss der Link-Button gedrückt werden, damit
 der Server gegenüber der Bridge autorisiert wird. Der User-Token wird ebenso in der Konfigurationsdatei gespeichert.
 
 Der lupus-hue Server startet unter Port 8000. Dies kann ebenso in der Konfigurationsdatei verändert werden. Alle weiteren
@@ -69,14 +69,14 @@ Einträge lupus-hue.conf werden erst für weitergehende Funktionen benötigt und
 
 Der lupus-hue Webservice auf dem Raspberry Pi wird über einen HTTP Get-Request aufgerufen:
 
-http://ip_des_raspi:8000/kommando?param1=wert1_param2=wert2
+http://pi:8000/kommando?param1=wert1_param2=wert2
 
-Für ip_des_raspi ist die reale IP-Adresse des Raspberry Pi einzusetzen (also z.B. 192.168.0.111). Der Router im Heimnetz
+Für "pi" ist die reale IP-Adresse des Raspberry Pi einzusetzen (also z.B. 192.168.178.111). Der Router im Heimnetz
 muss so konfiguriert sein, dass dem Raspberry Pi immer dieselbe IP-Adresse zugewiesen wird.
 
-Bei einer Fritz!-Box und anderen Routern kann der Raspberry auch über einen Namen angesprochen werden. Z.B.:
+Bei einer Fritz!-Box und anderen Routern kann der Raspberry Pi auch über einen Namen angesprochen werden. Z.B.:
 
-http://pi:8000/kommando?param1=wert1_param2=wert2
+http://raspberrypi:8000/kommando?param1=wert1_param2=wert2
 
 Nun können Aufrufe an den lupus-hue Server als "Action-URL" Aktionen in den Home Automation-Regeln genutzt werden. Hier
 ein einfaches Beispiel für das Schalten des Lichtes (mit den erweiterten Home Automation Bedingungen ab LUPUS-Firmware
@@ -87,13 +87,15 @@ ein einfaches Beispiel für das Schalten des Lichtes (mit den erweiterten Home A
 Wird (durch einen Bewegungsmelder) ein Sensor-Event ausgelöst UND ist der Lux-Wert, der vom Lichtsensor gemeldet wird, 
 unter 8, dann wird im Raum "Flur" für 60 Sekunden des Licht eingeschaltet.
 
+Wichtig ist, dass die verschiedenen Parameter jeweils mit einem Unterstrich ("_") getrennt werden.
+
 ### 3. Philips Hue
 
 Ich habe dieses Programm ausschließlich mit der Standard Hue App von Philips getestet. Grundsätzlich müsste lupus-hue aber
-auch mit Apps von Dritten zusammenarbeiten.
+auch mit Apps von Drittanbietern zusammenarbeiten.
 
 Es sollten alle Räume - in der Philips Hue API heißen diese Gruppen bzw. Groups - und Lichter über die App eingerichtet
-werden.
+werden. Nach dem Einrichten eines neuen Raums muss lupus-hue neu gestartet werden!
 
 Über lupus-hue können die Farbwerte nach dem Hue/Sat-Schema und Weißtöne nach der Farbtemperatur (color temperatur)
 eingestellt werden.
@@ -114,7 +116,7 @@ Gib Informationen zur Gruppe (Raum) "group" aus.
 
 #### http://pi:8000/info?l=light
 
-Gib Informationen zu Licht "light" aus. "light" ist die *Nummer* des Lichtes. Die Lichter eines Raumes können mit 
+Gibt Informationen zu Licht "light" aus. "light" ist die *Nummer* des Lichtes. Die Lichter eines Raumes können mit 
 info?g=group ermittelt werden.
 
 ### Kommando "on" - Einschalten eines Lichtes oder einer Gruppe
@@ -123,8 +125,8 @@ info?g=group ermittelt werden.
 
 Schalte die Gruppe (Raum) "group" ein und setze ggf. einen Timer.
 
-+ _t=seconds  Setze einen Timer von "seconds" Sekunden, nach denen die Gruppe wieder ausgeschaltet wird.
-+ _b=bri      Setze die Helligkeit auf "bri" (0 .. 254)
++ t=seconds  Setze einen Timer von "seconds" Sekunden, nach denen die Gruppe wieder ausgeschaltet wird.
++ b=bri      Setze die Helligkeit auf "bri" (0 .. 254)
 
 Beispiele:
 
@@ -140,8 +142,8 @@ Wie oben aber für das Licht "light".
 
 Schalte die Gruppe (Raum) "group" ein und setze Farbe und Farbsättigung.
 
-+ _h=hue      Setze den "hue"-Wert des Lichts / des Raums 
-+ _s=sat      Setze die Sättigung auf "sat".
++ h=hue      Setze den "hue"-Wert des Lichts / des Raums 
++ s=sat      Setze die Sättigung auf "sat".
 + Andere Parameter wie oben
 
 #### http://pi:8000/on?l=light_h=hue_s=sat[_b=bri][_t=seconds]
@@ -175,7 +177,7 @@ Zu Szenen siehe auch unten stehendes Kapitel "Szenen".
 
 Schalte Raum (Gruppe) "group" aus.
 
-+ _t=seconds  Setze einen Timer von "seconds" Sekunden, nach dem die Gruppe wieder eingeschaltet(!) wird.
++ t=seconds  Setze einen Timer von "seconds" Sekunden, nach dem die Gruppe wieder eingeschaltet(!) wird.
 
 #### http://pi:8000/off?l=light[_t=seconds]
 
@@ -186,13 +188,9 @@ Schalte Licht "light" aus.
 #### http://pi:8000/loop?g=group_n=scene_t=seconds
 
 Mit Hilfe einer Loop können verschiedene Lichter für einen definierten Zeitraum blinken und dann in einen Endzustand
-übergehen. 
+übergehen. Siehe auch das  Kapitel "Loops".
 
-Siehe auch das  Kapitel "Loops".
-
-## Fortgeschrittene Konzepte
-
-### Szenen
+## Szenen
 
 Anders als in der Hue App, werden Szenen bei lupus-hue nicht fest einem Raum / einer Gruppe zugeordnet. Beim Aufrufen
 einer Szene muss jedoch ein Raum angegeben werden. Es werden dann nur diejenigen Lichter verändert, die sowohl in der Gruppe
@@ -237,7 +235,7 @@ http://ip:8000/on?g=Flur_n=scene2
 
 dass im FLur die Lichter 2 und 3 rot und Licht 4 ausgeschaltet wird.
 
-### Loops
+## Loops
 
 Eine Loop besteht aus zwei Szenen, zwischen denen im Sekundentakt hin- und hergeschaltet wird, sowie einer Gruppe, die den
 Zustand nach Beendigung der Loop beschreibt. Diese werden jeweils mit einem einheitlichen Szenennamen und einer angehängten
@@ -258,7 +256,7 @@ kaltem Weiss wechselt und danach alle Lichter ausschaltet:
 
 http://pi:8000/loop?g=all_n=alarm_t=120
 
-### Raum-Listen
+## Raum-Listen
 
 An jeder Stelle an der in der obigen API-Beschreibung die Nennung einer Gruppe bzw. eines Raumes mit dem Parameter g=group
 möglich ist, kann auch eine benannte Liste an Räumen angegeben werden, die zuvor in der Konfigurationsdatei hinterlegt
