@@ -74,7 +74,7 @@ Für die Nutzung von Szenen siehe Kapitel "Szenen".
 ### 2. Dateien kopieren und Programm starten
 
 Das Python-Programm lupus-hue.py und die Konfigurationsdatei lupus-hue.conf werden in ein beliebiges Verzeichnis auf dem Zielsystem
-kopiert. Das Programm kann nun mit dem python-Interpreter in Version >= 3.4 z.B. aus Raspberry Pi so aufgerufen werden:
+kopiert. Das Programm kann nun mit z.B. auf dem Raspberry Pi so aufgerufen werden:
 
 ![screenshot server start](img/server2.png "Screenshot Server-Start")
 
