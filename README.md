@@ -11,6 +11,9 @@ Wer jedoch bereits intelligente LED-Lichter von Philips im Einsatz hat oder mit 
 Lichtsteuerung nicht weiterkommt, für den bietet sich mit diesem Projekt die Möglichkeit, Hue- und kompatible Lampen 
 von der LUPUS XT-Anlage aus zu steuern.
 
+Dieses Projekt stellt bietet eine generische Web-Schnittstelle, auch ohne eine LUPS-Anlage sinnvoll genutzt werden kann. Die meisten
+Features sind aber bei dem Versuch, intelligente Lichter aus der Home Automation der LUPUS XT2 zu steuern entstanden.
+
 ## Voraussetzungen
 
 Folgendes Equipment wird vorausgesetzt:
@@ -83,8 +86,9 @@ Einträge lupus-hue.conf werden erst für weitergehende Funktionen benötigt und
 ### 3. Home Automation-Regeln in der LUPUS XT2+ konfigurieren
 
 Der lupus-hue Webservice auf dem Raspberry Pi wird über einen HTTP Get-Request aufgerufen:
-
+```
 http://pi:8000/kommando?param1=wert1_param2=wert2
+```
 
 Für "pi" ist die reale IP-Adresse des Raspberry Pi einzusetzen (also z.B. 192.168.178.111). Der Router im Heimnetz
 muss so konfiguriert sein, dass dem Raspberry Pi immer dieselbe IP-Adresse zugewiesen wird.
@@ -110,18 +114,24 @@ Im Folgenden werden die verschiedenen Kommandos für den Webservice erklärt:
 
 ### Kommando "info" - Informationen zu Lichtern oder Gruppen (Räumen) ausgeben
 
-#### http://pi:8000/info?g=group
+```
+http://pi:8000/info?g=group
+```
 
 Gib Informationen zur Gruppe (Raum) "group" aus.
 
-#### http://pi:8000/info?l=light
+```
+http://pi:8000/info?l=light
+```
 
 Gibt Informationen zu Licht "light" aus. "light" ist die *Nummer* des Lichtes. Die Lichter eines Raumes können mit 
 info?g=group ermittelt werden.
 
 ### Kommando "on" - Einschalten eines Lichtes oder einer Gruppe
 
-#### http://pi:8000/on?g=group[_b=bri][_t=seconds]
+```
+http://pi:8000/on?g=group[_b=bri][_t=seconds]
+```
 
 Schalte die Gruppe (Raum) "group" ein und setze ggf. einen Timer.
 
@@ -129,16 +139,18 @@ Schalte die Gruppe (Raum) "group" ein und setze ggf. einen Timer.
 + b=bri      Setze die Helligkeit auf "bri" (0 .. 254)
 
 Beispiele:
-
-+ http://pi:8000/on?g=Flur_b=200_t=180
+```
+http://pi:8000/on?g=Flur_b=200_t=180
+```
 
 Schaltet die Lichter im Raum "Flur" für 180 Sekunden ein und setzt die Helligkeit auf 200 (von 254).
-
-#### http://pi:8000/on?l=light[_b=bri][_t=seconds]
-
+```
+http://pi:8000/on?l=light[_b=bri][_t=seconds]
+```
 Wie oben aber für das Licht "light".
-
-#### http://pi:8000/on?g=group_h=hue_s=sat[_b=bri][_t=seconds]
+```
+http://pi:8000/on?g=group_h=hue_s=sat[_b=bri][_t=seconds]
+```
 
 Schalte die Gruppe (Raum) "group" ein und setze Farbe und Farbsättigung.
 
@@ -146,26 +158,34 @@ Schalte die Gruppe (Raum) "group" ein und setze Farbe und Farbsättigung.
 + s=sat      Setze die Sättigung auf "sat".
 + Andere Parameter wie oben
 
-#### http://pi:8000/on?l=light_h=hue_s=sat[_b=bri][_t=seconds]
+```
+http://pi:8000/on?l=light_h=hue_s=sat[_b=bri][_t=seconds]
+```
 
 Wie oben aber für das Licht "light".
 
 Beispiel:
-
-+ http://pi:8000/on?l=10_h=21986_s=253
-
+```
+http://pi:8000/on?l=10_h=21986_s=253
+```
 Schaltet das Licht 10 ein und setzt einen tiefgrünen Farbton.
 
-#### http://pi:8000/on?g=group_c=coltemp[_b=brightness][_t=seconds]
+```
+http://pi:8000/on?g=group_c=coltemp[_b=brightness][_t=seconds]
+```
 
 Schalte die Lichter der Gruppe (Raums) "group" ein und setze die Farbtemperatur auf "coltemp" (ein Wert zwischen 153 = sehr
 kalt und 500 = sehr warm). Andere Parameter wir oben. 
 
-#### http://pi:8000/on?l_light_c=coltemp[_b=brightness][_t=seconds]
+```
+http://pi:8000/on?l_light_c=coltemp[_b=brightness][_t=seconds]
+```
 
 Schalte das Licht "light" ein und setze die Farbtemperatur auf "coltemp". Andere Parameter wir oben.
 
-#### http://pi:8000/on?g=group_n=scene[_t=seconds]
+```
+http://pi:8000/on?g=group_n=scene[_t=seconds]
+```
 
 Aktiviere die Szene "scene" für Gruppe (Raum) "group". Andere Parameter wie oben.
 
@@ -173,19 +193,25 @@ Zu Szenen siehe auch unten stehendes Kapitel "Szenen".
 
 ### Kommando "off" - Schalte Licht oder Raum aus
 
-#### http://pi:8000/off?g=group[_t=seconds]
+```
+http://pi:8000/off?g=group[_t=seconds]
+```
 
 Schalte Raum (Gruppe) "group" aus.
 
 + t=seconds  Setze einen Timer von "seconds" Sekunden, nach dem die Gruppe wieder eingeschaltet(!) wird.
 
-#### http://pi:8000/off?l=light[_t=seconds]
+```
+http://pi:8000/off?l=light[_t=seconds]
+```
 
 Schalte Licht "light" aus.
 
 ### Kommando "loop" - Erzeuge eine Loop
 
-#### http://pi:8000/loop?g=group_n=scene_t=seconds
+```
+http://pi:8000/loop?g=group_n=scene_t=seconds
+```
 
 Mit Hilfe einer Loop können verschiedene Lichter für einen definierten Zeitraum blinken und dann in einen Endzustand
 übergehen. Siehe auch das  Kapitel "Loops".
@@ -209,24 +235,29 @@ Dabei können die folgenden Keys benutzt werden:
 - on: True -> ein, False -> aus
 
 Beispiel (in lupus-hue.conf):
-
-![lightstates](public/img/lightstates.png "Lightstates in lupus-hue.conf")
+```
+[LIGHTSTATES]
+on = on:True
+off = on:False
+red = on:True hue:64866 sat:254 bri:254
+neutral = on:True ct:220 bri:254
+```
 
 Nun können Szenen definiert werden, die auf die Lichtzustände verweisen. Dazu wird ein Abschnitt [Scenes] angelegt, der
 die Szenen aufführt und jeweils Zustände mit Lichtern verbindet.
 
 Beispiel (in lupus-hue.conf):
 
-...
+```
 [Scenes]
 scene1 = cold:3,4
 scene2 = red:2,3 off:4
-...
+```
 
 Wenn die Gruppe (Raum) "Flur" nun aus den Lichtern 2, 3 und 4 besteht, bewirkt der Aufruf:
-
+```
 http://ip:8000/on?g=Flur_n=scene2
-
+```
 dass im FLur die Lichter 2 und 3 rot und Licht 4 ausgeschaltet wird.
 
 ## Loops
@@ -237,18 +268,18 @@ Zustand nach Beendigung der Loop beschreibt. Diese werden jeweils mit einem einh
 angelegt.
 
 Es sind z.B. folgende Szenen definiert:
-
-  ...
-  [Scenes]
-  alarm1 = red:1,2,3,4
-  alarm2 = cold:1,2,3,4
-  alarm3 = off:1,2,3,4
-  ...
+```
+[Scenes]
+alarm1 = red:1,2,3,4
+alarm2 = cold:1,2,3,4
+alarm3 = off:1,2,3,4
+```
 
 Jetzt kann mit folgendem Kommand eine Loop z.B. als Alarmsignalisierung für 2 Minuten gestartet werden, die zwischen Rot und
 kaltem Weiss wechselt und danach alle Lichter ausschaltet:
-
+```
 http://pi:8000/loop?g=all_n=alarm_t=120
+```
 
 ## Raum-Listen
 
@@ -258,11 +289,12 @@ wurden. Diese Listen dienen zur Reduktion der nötigen Home Automation Regeln in
 
 Beispiel:
 
-...
+```
 [Groups]
 WF = ('Wohnzimmer', 'Flur',)
 FK = ('Flur','Keller')
 SZ = ('Schlafzimmer',)
+```
 
 Mit g=WF können werden Aktionen jetzt für beide Gruppen/Räume "Wohnzimmer" und "Flur" ausgeführt. Wie mit dem Beispiel "SZ"
 kann man diesen Mechanismus auch benutzen um Abkürzungen für die Namen von Gruppen/Räumen einzuführen. Wichtig ist dabei
