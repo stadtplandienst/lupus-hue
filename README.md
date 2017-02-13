@@ -237,7 +237,7 @@ Dabei können die folgenden Keys benutzt werden:
 - transitiontime: Wert in Zehntelsekunden für die Übergänge zwischen den Zuständen
 - on: True -> ein, False -> aus
 
-Beispiel (in lupus-hue.conf):
+Beispiel für "Lightstates" (in lupus-hue.conf):
 ```
 [LIGHTSTATES]
 on = on:True
@@ -248,7 +248,7 @@ neutral = on:True ct:220 bri:254
 Nun können Szenen definiert werden, die auf die Lichtzustände verweisen. Dazu wird ein Abschnitt [Scenes] angelegt, der
 die Szenen aufführt und jeweils Zustände mit Lichtern verbindet.
 
-Beispiel (in lupus-hue.conf):
+Beispiel für "Scenes" (in lupus-hue.conf):
 ```
 [Scenes]
 scene1 = cold:3,4
@@ -287,7 +287,7 @@ An jeder Stelle an der in der obigen API-Beschreibung die Nennung einer Gruppe b
 möglich ist, kann auch eine benannte Liste an Räumen angegeben werden, die zuvor in der Konfigurationsdatei hinterlegt
 wurden. Diese Listen dienen zur Reduktion der nötigen Home Automation Regeln in der LUPUS XT-Anlage. 
 
-Beispiel:
+Beispiel für Raum-Listen (in lupus-hue.conf):
 ```
 [Groups]
 WF = ('Wohnzimmer', 'Flur',)
