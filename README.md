@@ -19,7 +19,9 @@ Features sind aber bei dem Versuch, intelligente Lichter aus der Home Automation
 Folgendes Equipment wird vorausgesetzt:
 
 + LUPUS XT2+ (getestet mit Firmware 0.0.2.15T und 0.0.2.17)
-+ Rapsberry Pi 3 (mit aktuellem Rasbian basierend auf Jessie)
++ Rechner / Board mit Python3.x. Erfolgreioch getestet auf:
+    + Rapsberry Pi 3 (mit aktuellem Rasbian basierend auf Jessie, Python 3.4)
+    + MacOS El Capitan mit Python 3.5
 + Philips Hue Bridge (getestet mit Bridge v2, sollte aber auch mit v1 laufen)
 + Philips Hue oder kompatible Leuchtmittel (z.B. auch Osram Lightify oder innr)
 
