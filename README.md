@@ -14,6 +14,10 @@ von der LUPUS XT2+-Anlage aus zu steuern.
 Dieses Projekt bietet eine generische Web-Schnittstelle, die auch ohne eine LUPUS-Anlage sinnvoll genutzt werden kann. Die meisten
 Features sind aber bei dem Versuch, intelligente Lichter aus der Home Automation der LUPUS XT2 zu steuern, entstanden.
 
+Ich nutze dieses Programm auf einem Raspberry Pi, der direkt an meiner Fritz!Box hängt und rund um die Uhr läuft. Alternativ kann
+man das Programm aber auch auf anderen Rechnern laufen lassen, auf denen Python >= 3.4 installiert ist und die ein Netzwerkanschluss
+(LAN oder WLAN) haben.
+
 ## Voraussetzungen
 
 Folgendes Equipment wird vorausgesetzt:
@@ -67,12 +71,10 @@ eingestellt werden. Siehe dazu: https://www.developers.meethue.com/documentation
 
 Für die Nutzung von Szenen siehe Kapitel "Szenen".
 
-### 2. Dateien auf Raspberry Pi kopieren und Programm starten
+### 2. Dateien kopieren und Programm starten
 
-Das Netzwerk (LAN und/oder WLAN) muss auf dem Raspberry Pi konfiguriert sein. 
-
-Das Python-Programm lupus-hue.py und die Konfigurationsdatei lupus-hue.conf werden in ein beliebiges Verzeichnis auf dem Raspberry 
-Pi kopiert. Das Programm kann nun mit dem python-Interpreter in Version 3.4 (nicht v2.x) z.B. so aufgerufen werden:
+Das Python-Programm lupus-hue.py und die Konfigurationsdatei lupus-hue.conf werden in ein beliebiges Verzeichnis auf dem Zielsystem
+kopiert. Das Programm kann nun mit dem python-Interpreter in Version >= 3.4 z.B. aus Raspberry Pi so aufgerufen werden:
 
 ![screenshot server start](img/server2.png "Screenshot Server-Start")
 
