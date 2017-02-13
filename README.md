@@ -41,12 +41,12 @@ lupus-hue hat folgende Features:
 + Setzen von Timern für das Ein- und Ausschalten (entspricht der "Einschalten für"-Aktion von LUPUS allerdings zusätzlich mit einem "Ausschalten für")
 + Loops für Effekte (z.B. für die Signalisierung eines Zustands oder bei Alarm)
 
-Typische Anwendungsfälle:
+Typische Anwendungsfälle im Zusammenspiel mit der LUPUS-Anlage sind:
 
 + Lichter bei Dämmerung einschalten wenn Anlage scharf
-+ Lichter abends automatisch ausschalten oder Nachtlichtmodus aktivieren (Dimmung)
++ Lichter abends automatisch ausschalten oder Nachtlichtmodus aktivieren
 + Verschiedene Lichtemperaturen für verschiedene Tageszeiten setzen
-+ Lichter ausschalten, wenn es außen hell genuug ist (immer oder nur in einem bestimmten Zustand der Anlage)
++ Lichter ausschalten, wenn es außen hell genug ist (immer oder nur in einem bestimmten Zustand der Anlage)
 + Lichter für eine definierte Zeit einschalten bei Bewegung (gemeldet über einen LUPUS Bewegungsmelder)
 + Lichter einschalten oder blinken lassen, wenn Alarm ausgelöst wird
 + Scharfschaltungszustand der Anlage bei Betreten des Hauses über Farbe eines Lichtes signalisieren 
@@ -62,27 +62,28 @@ Es sollten alle Räume - in der Philips Hue API heißen diese Gruppen bzw. Group
 werden. _Nach dem Einrichten eines neuen Raums muss lupus-hue neu gestartet werden!_
 
 Über lupus-hue können die Farbwerte nach dem Hue/Sat-Schema und Weißtöne nach der Farbtemperatur (color temperatur)
-eingestellt werden.
-
-Siehe dazu: https://www.developers.meethue.com/documentation/core-concepts
+eingestellt werden. Siehe dazu: https://www.developers.meethue.com/documentation/core-concepts
 
 Für die Nutzung von Szenen siehe Kapitel "Szenen".
 
 ### 2. Programm auf Raspberry Pi kopieren und starten
 
-Die Dateien lupus-hue.py und lupus-hue.conf müssen in ein beliebiges Verzeichnis auf dem Raspberry Pi kopiert werden.
-Der Webservice, der die Lichtsteuerung übernimmt, muss mit dem python-Interpreter in Version 3.4 (nicht v2.x)
-aufgerufen werden:
+Das Netzwerk (LAN und/oder WLAN) muss auf dem Raspberry Pi konfiguriert sein. 
+
+Das Python-Programm lupus-hue.py und die Konfigurationsdatei lupus-hue.conf werden in ein beliebiges Verzeichnis auf dem Raspberry 
+Pi kopiert. Der Webservice, der die Lichtsteuerung übernimmt, kann nun mit dem python-Interpreter in Version 3.4 (nicht v2.x)
+z.B. so aufgerufen werden:
 
 ![screenshot server start](public/img/server2.png "Screenshot Server-Start")
 
-Der lupus-hue Server sucht im lokalen Netzwerk nach der Philips Hue Bridge. Wird diese gefunden, wird die IP-Adresse in die
+Der lupus-hue Server sucht im lokalen Netzwerk nach der Philips Hue Bridge. Wird diese gefunden, wird die IP-Adresse der Bridge in die
 Konfigurationsdatei lupus-hue.conf übernommen. Sollte die Bridge nicht automatisch gefunden werden, kann diese auch händisch
 in der Konfigurationsdatei eingetragen werden. Nach dem Entdecken der Bridge muss der Link-Button gedrückt werden, damit
 der Server gegenüber der Bridge autorisiert wird. Der User-Token wird ebenso in der Konfigurationsdatei gespeichert.
 
-Der lupus-hue Server startet unter Port 8000. Dies kann ebenso in der Konfigurationsdatei verändert werden. Alle weiteren
-Einträge lupus-hue.conf werden erst für weitergehende Funktionen benötigt und können zunächst ignoriert werden.
+Der lupus-hue Server startet einen HTTP-Server auf Port 8000. Die Port-Nummer kann  in der Konfigurationsdatei verändert werden.
+Alle weiteren Einträge in der Konfigurationsdatei werden erst für weitergehende Funktionen benötigt und können zunächst 
+ignoriert werden.
 
 ### 3. Home Automation-Regeln in der LUPUS XT2+ konfigurieren
 
@@ -90,10 +91,8 @@ Der lupus-hue Webservice auf dem Raspberry Pi wird über einen HTTP Get-Request 
 ```
 http://pi:8000/kommando?param1=wert1_param2=wert2
 ```
-
 Für "pi" ist die reale IP-Adresse des Raspberry Pi einzusetzen (also z.B. 192.168.178.111). Der Router im Heimnetz
-muss so konfiguriert sein, dass dem Raspberry Pi immer dieselbe IP-Adresse zugewiesen wird.
-
+muss so konfiguriert sein, dass dem Raspberry Pi immer dieselbe IP-Adresse zugewiesen wird. 
 Bei einer Fritz!-Box und anderen Routern kann der Raspberry Pi auch über einen Namen angesprochen werden. Z.B.:
 ```
 http://raspberrypi:8000/kommando?param1=wert1_param2=wert2
@@ -107,7 +106,7 @@ ein einfaches Beispiel für das Schalten des Lichtes (mit den erweiterten Home A
 Wird (z.B. durch einen Bewegungsmelder) das Sensor-Event 1 ausgelöst UND ist der Lux-Wert, der vom Lichtsensor gemeldet wird, 
 unter 8, dann wird im Raum "Flur" für 60 Sekunden des Licht eingeschaltet.
 
-Wichtig ist, dass die verschiedenen Parameter jeweils mit einem Unterstrich ("_") getrennt werden.
+Wichtig ist, dass die verschiedenen Parameter jeweils mit einem Unterstrich ("_") getrennt werden!
 
 ## Das Web-API
 
@@ -218,11 +217,10 @@ In der Konfigurationsdatei (lupus-hue.conf) werden zunächst Lichtzustände konf
 [Lightstates] angelegt. Jedem Zustand wird eine Liste von Eigenschaften gemäß der Hue API Beschreibung zugeordnet.
 
 Dabei können die folgenden Keys benutzt werden:
-
-- bri: Brightness (Wert zwischen 0 und 254)
+- bri: Brightness (Wert zwischen 0 = aus und 254 = hell)
 - hue: Farbe (gemäß Hue Farbschema)
 - sat: Sättigung (Wert zwischen 0 und 254)
-- ct: Farbtemperatur (Wert zwischen 153 und 500)
+- ct: Farbtemperatur (Wert zwischen 153 = kalt und 500 = warm)
 - transitiontime: Wert in Zehntelsekunden für die Übergänge zwischen den Zuständen
 - on: True -> ein, False -> aus
 
@@ -234,7 +232,6 @@ off = on:False
 red = on:True hue:64866 sat:254 bri:254
 neutral = on:True ct:220 bri:254
 ```
-
 Nun können Szenen definiert werden, die auf die Lichtzustände verweisen. Dazu wird ein Abschnitt [Scenes] angelegt, der
 die Szenen aufführt und jeweils Zustände mit Lichtern verbindet.
 
