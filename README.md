@@ -12,8 +12,7 @@ Lichtsteuerung nicht weiterkommt, für den bietet sich mit diesem Projekt die M�
 von der LUPUS XT2+-Anlage aus zu steuern.
 
 Dieses Projekt bietet eine generische Web-Schnittstelle, die auch ohne eine LUPUS-Anlage sinnvoll genutzt werden kann. Die meisten
-Features sind aber bei dem Versuch, intelligente Lichter aus der Home Automation der LUPUS XT2 zu steuern, entstanden und damit
-vermutlich für andere LUPUS-Nutzer besonders nützlich.
+Features sind aber bei dem Versuch, intelligente Lichter aus der Home Automation der LUPUS XT2 zu steuern, entstanden.
 
 ## Voraussetzungen
 
