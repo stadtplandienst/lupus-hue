@@ -130,7 +130,7 @@ info?g=group ermittelt werden.
 ```
 http://pi:8000/on?g=group[_b=bri][_t=seconds]
 ```
-Schalte die Gruppe (Raum) "group" ein und setze ggf. einen Timer.
+Schaltet die Gruppe (Raum) "group" ein und setzt ggf. einen Timer.
 
 + t=seconds  Setze einen Timer von "seconds" Sekunden, nach denen die Gruppe wieder ausgeschaltet wird.
 + b=bri      Setze die Helligkeit auf "bri" (0 .. 254)
@@ -149,7 +149,7 @@ Wie oben aber für das Licht "light".
 ```
 http://pi:8000/on?g=group_h=hue_s=sat[_b=bri][_t=seconds]
 ```
-Schalte die Gruppe (Raum) "group" ein und setze Farbe und Farbsättigung.
+Schaltet die Gruppe (Raum) "group" ein und setzt Farbe und Farbsättigung.
 
 + h=hue      Setze den "hue"-Wert des Lichts / des Raums 
 + s=sat      Setze die Sättigung auf "sat".
@@ -169,18 +169,18 @@ Schaltet das Licht 10 ein und setzt einen tiefgrünen Farbton.
 ```
 http://pi:8000/on?g=group_c=coltemp[_b=brightness][_t=seconds]
 ```
-Schalte die Lichter der Gruppe (Raums) "group" ein und setze die Farbtemperatur auf "coltemp" (ein Wert zwischen 153 = sehr
+Schaltet die Lichter der Gruppe (Raums) "group" ein und setzt die Farbtemperatur auf "coltemp" (ein Wert zwischen 153 = sehr
 kalt und 500 = sehr warm). Andere Parameter wir oben. 
 
 ```
 http://pi:8000/on?l_light_c=coltemp[_b=brightness][_t=seconds]
 ```
-Schalte das Licht "light" ein und setze die Farbtemperatur auf "coltemp". Andere Parameter wir oben.
+Schaltet das Licht "light" ein und setzt die Farbtemperatur auf "coltemp". Andere Parameter wir oben.
 
 ```
 http://pi:8000/on?g=group_n=scene[_t=seconds]
 ```
-Aktiviere die Szene "scene" für Gruppe (Raum) "group". Andere Parameter wie oben.
+Aktiviert die Szene "scene" für Gruppe (Raum) "group". Andere Parameter wie oben.
 
 Zu Szenen siehe auch unten stehendes Kapitel "Szenen".
 
@@ -189,14 +189,14 @@ Zu Szenen siehe auch unten stehendes Kapitel "Szenen".
 ```
 http://pi:8000/off?g=group[_t=seconds]
 ```
-Schalte Raum (Gruppe) "group" aus.
+Schaltet Raum (Gruppe) "group" aus.
 
 + t=seconds  Setze einen Timer von "seconds" Sekunden, nach dem die Gruppe wieder eingeschaltet(!) wird.
 
 ```
 http://pi:8000/off?l=light[_t=seconds]
 ```
-Schalte Licht "light" aus.
+Schaltet Licht "light" aus.
 
 ### Kommando "loop" - Erzeuge eine Loop
 
@@ -238,7 +238,6 @@ Nun können Szenen definiert werden, die auf die Lichtzustände verweisen. Dazu 
 die Szenen aufführt und jeweils Zustände mit Lichtern verbindet.
 
 Beispiel (in lupus-hue.conf):
-
 ```
 [Scenes]
 scene1 = cold:3,4
@@ -265,7 +264,6 @@ alarm1 = red:1,2,3,4
 alarm2 = cold:1,2,3,4
 alarm3 = off:1,2,3,4
 ```
-
 Jetzt kann mit folgendem Kommand eine Loop z.B. als Alarmsignalisierung für 2 Minuten gestartet werden, die zwischen Rot und
 kaltem Weiss wechselt und danach alle Lichter ausschaltet:
 ```
@@ -279,14 +277,12 @@ möglich ist, kann auch eine benannte Liste an Räumen angegeben werden, die zuv
 wurden. Diese Listen dienen zur Reduktion der nötigen Home Automation Regeln in der LUPUS XT-Anlage. 
 
 Beispiel:
-
 ```
 [Groups]
 WF = ('Wohnzimmer', 'Flur',)
 FK = ('Flur','Keller')
 SZ = ('Schlafzimmer',)
 ```
-
 Mit g=WF können werden Aktionen jetzt für beide Gruppen/Räume "Wohnzimmer" und "Flur" ausgeführt. Wie mit dem Beispiel "SZ"
 kann man diesen Mechanismus auch benutzen um Abkürzungen für die Namen von Gruppen/Räumen einzuführen. Wichtig ist dabei
 aber das Komma nach dem Raumnamen.
