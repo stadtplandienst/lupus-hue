@@ -179,7 +179,7 @@ http://pi:8000/on?l_light_c=coltemp[_b=brightness][_t=seconds]
 ```
 Schaltet das Licht "light" ein und setzt die Farbtemperatur auf "coltemp". Andere Parameter wir oben.
 
-### Aktivieren einer Szene
+#### Aktivieren einer Szene
 ```
 http://pi:8000/on?g=group_n=scene[_t=seconds]
 ```
