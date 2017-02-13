@@ -263,12 +263,12 @@ dass im Flur die Lichter 2 und 3 rot und Licht 4 ausgeschaltet wird.
 
 ## Loops
 
-Eine Loop besteht aus zwei Szenen, zwischen denen im Sekundentakt hin- und hergeschaltet wird, sowie einer Gruppe, die den
+Eine Loop besteht aus zwei Szenen, zwischen denen im Sekundentakt hin- und hergeschaltet wird, sowie einer Szene, die den
 Zustand nach Beendigung der Loop beschreibt. Diese werden jeweils mit einem einheitlichen Szenennamen und einer angehängten
-"1" (erster Wechselzustand), "2" (zweiter Wechselzustand) bzw. "3" (Endezustand) in der Konfigurationsdatei
+"1" (erster Wechselzustand), "2" (zweiter Wechselzustand) bzw. "3" (Endzustand) in der Konfigurationsdatei
 angelegt.
 
-Es sind z.B. folgende Szenen definiert:
+Beispiel für Szenen einer Loop (in lupus-hue.conf):
 ```
 [Scenes]
 alarm1 = red:1,2,3,4
