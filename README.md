@@ -78,19 +78,11 @@ Pi kopiert. Das Programm kann nun mit dem python-Interpreter in Version 3.4 (nic
 lupus-hue sucht im lokalen Netzwerk nach der Philips Hue Bridge. Wird diese gefunden, wird die IP-Adresse der Bridge in die
 Konfigurationsdatei lupus-hue.conf übernommen. Sollte die Bridge nicht automatisch gefunden werden, kann die IP-Adresse auch händisch
 in der Konfigurationsdatei eingetragen werden:
-```
-[Hue]
-bridge_ip = 192.168.0.111
-```
 
 Anschließend muss der Link-Button gedrückt werden, damit der Server gegenüber der Bridge autorisiert wird. Der User-Token wird ebenso 
 in der Konfigurationsdatei gespeichert.
 
-Das Programm lupus-hue startet einen HTTP-Server auf Port 8000. Die Portnummer kann  in der Konfigurationsdatei verändert werden:
-```
-[HTTP-Server]
-port = 8000
-```
+Das Programm lupus-hue startet einen HTTP-Server auf Port 8000. Die Portnummer kann  in der Konfigurationsdatei verändert werden.
 
 Alle weiteren Einträge in der Konfigurationsdatei werden erst für weitergehende Funktionen benötigt und können zunächst 
 ignoriert werden.
