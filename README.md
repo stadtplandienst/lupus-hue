@@ -72,7 +72,7 @@ Das Netzwerk (LAN und/oder WLAN) muss auf dem Raspberry Pi konfiguriert sein.
 Das Python-Programm lupus-hue.py und die Konfigurationsdatei lupus-hue.conf werden in ein beliebiges Verzeichnis auf dem Raspberry 
 Pi kopiert. Das Programm kann nun mit dem python-Interpreter in Version 3.4 (nicht v2.x) z.B. so aufgerufen werden:
 
-![screenshot server start](public/img/server2.png "Screenshot Server-Start")
+![screenshot server start](img/server2.png "Screenshot Server-Start")
 
 lupus-hue sucht im lokalen Netzwerk nach der Philips Hue Bridge. Wird diese gefunden, wird die IP-Adresse der Bridge in die
 Konfigurationsdatei lupus-hue.conf übernommen. Sollte die Bridge nicht automatisch gefunden werden, kann die IP-Adresse auch händisch
@@ -100,7 +100,7 @@ Nun können Aufrufe an den lupus-hue Server als "Action-URL"-Aktionen in den Hom
 ein einfaches Beispiel für das Schalten des Lichtes (mit den erweiterten Home Automation Bedingungen ab LUPUS-Firmware
 0.0.2.17):
 
-![ha regel](public/img/regel2.png "Home Automation Regel")
+![ha regel](img/regel2.png "Home Automation Regel")
 
 In diesem Beispiel wird, wenn durch einen Bewegungsmelder das Sensor-Event 1 ausgelöst wird UND der Lux-Wert, der vom Lichtsensor 
 gemeldet wird, kleiner 8 ist, im Raum "Flur" für 60 Sekunden des Licht eingeschaltet.
