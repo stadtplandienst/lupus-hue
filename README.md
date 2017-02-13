@@ -126,7 +126,7 @@ Gibt Informationen zu Licht "light" aus. "light" ist die *Nummer* des Lichtes. D
 info?g=group ermittelt werden.
 
 ### Kommando "on" - Einschalten eines Lichtes oder einer Gruppe
-
+#### Einfaches Einschalten
 ```
 http://pi:8000/on?g=group[_b=bri][_t=seconds]
 ```
@@ -146,6 +146,7 @@ http://pi:8000/on?l=light[_b=bri][_t=seconds]
 ```
 Wie oben aber für das Licht "light".
 
+#### Einschalten und Setzen der Farbe
 ```
 http://pi:8000/on?g=group_h=hue_s=sat[_b=bri][_t=seconds]
 ```
@@ -166,6 +167,7 @@ http://pi:8000/on?l=10_h=21986_s=253
 ```
 Schaltet das Licht 10 ein und setzt einen tiefgrünen Farbton.
 
+#### Einschalten und Setzen der Farbtemperatur
 ```
 http://pi:8000/on?g=group_c=coltemp[_b=brightness][_t=seconds]
 ```
@@ -177,6 +179,7 @@ http://pi:8000/on?l_light_c=coltemp[_b=brightness][_t=seconds]
 ```
 Schaltet das Licht "light" ein und setzt die Farbtemperatur auf "coltemp". Andere Parameter wir oben.
 
+### Aktivieren einer Szene
 ```
 http://pi:8000/on?g=group_n=scene[_t=seconds]
 ```
