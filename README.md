@@ -4,7 +4,7 @@
 
 Die LUPUS XT2+ Alarmanlage bietet ein Home Automation Feature, um verschiedene Aspekte eines intelligenten Heims
 zu steuern. Unter anderem ist es möglich Lichter oder andere Verbraucher über die Unterputzrelais oder die Funksteckdosen 
-zu schalten. Das ist eine schöne Möglichkeit für die Simulation einer Anwesenheit durch Lichter wenn die Anlage scharf
+zu schalten. Das ist eine schöne Möglichkeit für die Simulation einer Anwesenheit durch Licht wenn die Anlage scharf
 gestellt wird. 
 
 Wer jedoch bereits intelligente LED-Lichter von Philips im Einsatz hat oder mit den von LUPUS gebotenen Möglichkeiten der
