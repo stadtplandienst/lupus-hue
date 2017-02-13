@@ -259,7 +259,7 @@ Wenn die Gruppe (Raum) "Flur" nun aus den Lichtern 2, 3 und 4 besteht, bewirkt d
 ```
 http://ip:8000/on?g=Flur_n=scene2
 ```
-dass im FLur die Lichter 2 und 3 rot und Licht 4 ausgeschaltet wird.
+dass im Flur die Lichter 2 und 3 rot und Licht 4 ausgeschaltet wird.
 
 ## Loops
 
@@ -275,6 +275,7 @@ alarm1 = red:1,2,3,4
 alarm2 = cold:1,2,3,4
 alarm3 = off:1,2,3,4
 ```
+
 Jetzt kann mit folgendem Kommand eine Loop z.B. als Alarmsignalisierung für 2 Minuten gestartet werden, die zwischen Rot und
 kaltem Weiss wechselt und danach alle Lichter ausschaltet:
 ```
