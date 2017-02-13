@@ -113,8 +113,8 @@ ein einfaches Beispiel für das Schalten des Lichtes (mit den erweiterten Home A
 
 ![ha regel](public/img/regel2.png "Home Automation Regel")
 
-Wird (z.B. durch einen Bewegungsmelder) das Sensor-Event 1 ausgelöst UND ist der Lux-Wert, der vom Lichtsensor gemeldet wird, 
-unter 8, dann wird im Raum "Flur" für 60 Sekunden des Licht eingeschaltet.
+In diesem Beispiel wird, wenn durch einen Bewegungsmelder das Sensor-Event 1 ausgelöst wird UND der Lux-Wert, der vom Lichtsensor 
+gemeldet wird, kleiner 8 ist, im Raum "Flur" für 60 Sekunden des Licht eingeschaltet.
 
 Wichtig ist, dass die verschiedenen Parameter jeweils mit einem Unterstrich ("_") getrennt werden!
 
