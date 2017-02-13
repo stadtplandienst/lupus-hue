@@ -94,10 +94,10 @@ Für "pi" ist die reale IP-Adresse des Raspberry Pi einzusetzen (also z.B. 192.1
 muss so konfiguriert sein, dass dem Raspberry Pi immer dieselbe IP-Adresse zugewiesen wird.
 
 Bei einer Fritz!-Box und anderen Routern kann der Raspberry Pi auch über einen Namen angesprochen werden. Z.B.:
-
+```
 http://raspberrypi:8000/kommando?param1=wert1_param2=wert2
-
-Nun können Aufrufe an den lupus-hue Server als "Action-URL" Aktionen in den Home Automation-Regeln genutzt werden. Hier
+```
+Nun können Aufrufe an den lupus-hue Server als "Action-URL"-Aktionen in den Home Automation-Regeln genutzt werden. Hier
 ein einfaches Beispiel für das Schalten des Lichtes (mit den erweiterten Home Automation Bedingungen ab LUPUS-Firmware
 0.0.2.17):
 
