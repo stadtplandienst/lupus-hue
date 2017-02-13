@@ -184,7 +184,7 @@ Aktiviert die Szene "scene" für Gruppe (Raum) "group". Andere Parameter wie obe
 
 Zu Szenen siehe auch unten stehendes Kapitel "Szenen".
 
-### Kommando "off" - Schalte Licht oder Raum aus
+### Kommando "off" - Ausschalten von Licht oder Raum
 
 ```
 http://pi:8000/off?g=group[_t=seconds]
