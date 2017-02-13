@@ -1,6 +1,6 @@
 # lupus-hue
 
-## Steuere Philips Hue Lichter über die LUPUS XT2+ Alarmanlage
+## Philips Hue Lichter über die LUPUS XT2+ Alarmanlage steuern
 
 Die LUPUS XT2+ Alarmanlage bietet eine Reihe von Home Automation Regeln, um verschiedene Aspekte eines intelligenten Heims
 zu steuern. Unter anderem ist es möglich Lichter oder andere Verbraucher über die Unterputzrelais oder die Funksteckdosen 
