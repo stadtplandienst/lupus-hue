@@ -101,7 +101,7 @@ Der lupus-hue Webservice auf dem Raspberry Pi wird über einen HTTP Get-Request 
 ```
 http://pi:8000/kommando?param1=wert1_param2=wert2
 ```
-Für "pi" ist die reale IP-Adresse des Raspberry Pi einzusetzen (also z.B. 192.168.178.111). Der Router im Heimnetz
+Für "pi" ist die reale IP-Adresse des Raspberry Pi einzusetzen (also z.B. 192.168.0.111). Der Router im Heimnetz
 muss so konfiguriert sein, dass dem Raspberry Pi immer dieselbe IP-Adresse zugewiesen wird. 
 Bei einer Fritz!-Box und anderen Routern kann der Raspberry Pi auch über einen Namen angesprochen werden. Z.B.:
 ```
