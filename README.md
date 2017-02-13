@@ -117,13 +117,11 @@ Im Folgenden werden die verschiedenen Kommandos für den Webservice erklärt:
 ```
 http://pi:8000/info?g=group
 ```
-
-Gib Informationen zur Gruppe (Raum) "group" aus.
+Gibt Informationen zur Gruppe (Raum) "group" aus.
 
 ```
 http://pi:8000/info?l=light
 ```
-
 Gibt Informationen zu Licht "light" aus. "light" ist die *Nummer* des Lichtes. Die Lichter eines Raumes können mit 
 info?g=group ermittelt werden.
 
@@ -132,7 +130,6 @@ info?g=group ermittelt werden.
 ```
 http://pi:8000/on?g=group[_b=bri][_t=seconds]
 ```
-
 Schalte die Gruppe (Raum) "group" ein und setze ggf. einen Timer.
 
 + t=seconds  Setze einen Timer von "seconds" Sekunden, nach denen die Gruppe wieder ausgeschaltet wird.
@@ -142,16 +139,16 @@ Beispiele:
 ```
 http://pi:8000/on?g=Flur_b=200_t=180
 ```
-
 Schaltet die Lichter im Raum "Flur" für 180 Sekunden ein und setzt die Helligkeit auf 200 (von 254).
+
 ```
 http://pi:8000/on?l=light[_b=bri][_t=seconds]
 ```
 Wie oben aber für das Licht "light".
+
 ```
 http://pi:8000/on?g=group_h=hue_s=sat[_b=bri][_t=seconds]
 ```
-
 Schalte die Gruppe (Raum) "group" ein und setze Farbe und Farbsättigung.
 
 + h=hue      Setze den "hue"-Wert des Lichts / des Raums 
@@ -161,7 +158,6 @@ Schalte die Gruppe (Raum) "group" ein und setze Farbe und Farbsättigung.
 ```
 http://pi:8000/on?l=light_h=hue_s=sat[_b=bri][_t=seconds]
 ```
-
 Wie oben aber für das Licht "light".
 
 Beispiel:
@@ -173,20 +169,17 @@ Schaltet das Licht 10 ein und setzt einen tiefgrünen Farbton.
 ```
 http://pi:8000/on?g=group_c=coltemp[_b=brightness][_t=seconds]
 ```
-
 Schalte die Lichter der Gruppe (Raums) "group" ein und setze die Farbtemperatur auf "coltemp" (ein Wert zwischen 153 = sehr
 kalt und 500 = sehr warm). Andere Parameter wir oben. 
 
 ```
 http://pi:8000/on?l_light_c=coltemp[_b=brightness][_t=seconds]
 ```
-
 Schalte das Licht "light" ein und setze die Farbtemperatur auf "coltemp". Andere Parameter wir oben.
 
 ```
 http://pi:8000/on?g=group_n=scene[_t=seconds]
 ```
-
 Aktiviere die Szene "scene" für Gruppe (Raum) "group". Andere Parameter wie oben.
 
 Zu Szenen siehe auch unten stehendes Kapitel "Szenen".
@@ -196,7 +189,6 @@ Zu Szenen siehe auch unten stehendes Kapitel "Szenen".
 ```
 http://pi:8000/off?g=group[_t=seconds]
 ```
-
 Schalte Raum (Gruppe) "group" aus.
 
 + t=seconds  Setze einen Timer von "seconds" Sekunden, nach dem die Gruppe wieder eingeschaltet(!) wird.
@@ -204,7 +196,6 @@ Schalte Raum (Gruppe) "group" aus.
 ```
 http://pi:8000/off?l=light[_t=seconds]
 ```
-
 Schalte Licht "light" aus.
 
 ### Kommando "loop" - Erzeuge eine Loop
