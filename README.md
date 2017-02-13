@@ -66,22 +66,32 @@ eingestellt werden. Siehe dazu: https://www.developers.meethue.com/documentation
 
 Für die Nutzung von Szenen siehe Kapitel "Szenen".
 
-### 2. Programm auf Raspberry Pi kopieren und starten
+### 2. Dateien auf Raspberry Pi kopieren und Programm starten
 
 Das Netzwerk (LAN und/oder WLAN) muss auf dem Raspberry Pi konfiguriert sein. 
 
 Das Python-Programm lupus-hue.py und die Konfigurationsdatei lupus-hue.conf werden in ein beliebiges Verzeichnis auf dem Raspberry 
-Pi kopiert. Der Webservice, der die Lichtsteuerung übernimmt, kann nun mit dem python-Interpreter in Version 3.4 (nicht v2.x)
-z.B. so aufgerufen werden:
+Pi kopiert. Das Programm kann nun mit dem python-Interpreter in Version 3.4 (nicht v2.x) z.B. so aufgerufen werden:
 
 ![screenshot server start](public/img/server2.png "Screenshot Server-Start")
 
 Der lupus-hue Server sucht im lokalen Netzwerk nach der Philips Hue Bridge. Wird diese gefunden, wird die IP-Adresse der Bridge in die
-Konfigurationsdatei lupus-hue.conf übernommen. Sollte die Bridge nicht automatisch gefunden werden, kann diese auch händisch
-in der Konfigurationsdatei eingetragen werden. Nach dem Entdecken der Bridge muss der Link-Button gedrückt werden, damit
-der Server gegenüber der Bridge autorisiert wird. Der User-Token wird ebenso in der Konfigurationsdatei gespeichert.
+Konfigurationsdatei lupus-hue.conf übernommen. Sollte die Bridge nicht automatisch gefunden werden, kann die IP-Adresse auch händisch
+in der Konfigurationsdatei eingetragen werden:
+```
+[Hue]
+bridge_ip = 192.168.0.111
+```
 
-Der lupus-hue Server startet einen HTTP-Server auf Port 8000. Die Port-Nummer kann  in der Konfigurationsdatei verändert werden.
+Anschließend muss der Link-Button gedrückt werden, damit der Server gegenüber der Bridge autorisiert wird. Der User-Token wird ebenso 
+in der Konfigurationsdatei gespeichert.
+
+Das Programm lupus-hue startet einen HTTP-Server auf Port 8000. Die Portnummer kann  in der Konfigurationsdatei verändert werden:
+```
+[HTTP-Server]
+port = 8000
+```
+
 Alle weiteren Einträge in der Konfigurationsdatei werden erst für weitergehende Funktionen benötigt und können zunächst 
 ignoriert werden.
 
