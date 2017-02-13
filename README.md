@@ -11,8 +11,9 @@ Wer jedoch bereits intelligente LED-Lichter von Philips im Einsatz hat oder mit 
 Lichtsteuerung nicht weiterkommt, für den bietet sich mit diesem Projekt die Möglichkeit, Hue- und kompatible Lampen 
 von der LUPUS XT-Anlage aus zu steuern.
 
-Dieses Projekt stellt bietet eine generische Web-Schnittstelle, auch ohne eine LUPS-Anlage sinnvoll genutzt werden kann. Die meisten
-Features sind aber bei dem Versuch, intelligente Lichter aus der Home Automation der LUPUS XT2 zu steuern entstanden.
+Dieses Projekt bietet eine generische Web-Schnittstelle, die auch ohne eine LUPUS-Anlage sinnvoll genutzt werden kann. Die meisten
+Features sind aber bei dem Versuch, intelligente Lichter aus der Home Automation der LUPUS XT2 zu steuern, entstanden und damit
+vermutlich auch für andere LUPUS-Nutzer von Nutzen.
 
 ## Voraussetzungen
 
