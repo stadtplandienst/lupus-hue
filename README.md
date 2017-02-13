@@ -75,7 +75,7 @@ Pi kopiert. Das Programm kann nun mit dem python-Interpreter in Version 3.4 (nic
 
 ![screenshot server start](public/img/server2.png "Screenshot Server-Start")
 
-Der lupus-hue Server sucht im lokalen Netzwerk nach der Philips Hue Bridge. Wird diese gefunden, wird die IP-Adresse der Bridge in die
+lupus-hue sucht im lokalen Netzwerk nach der Philips Hue Bridge. Wird diese gefunden, wird die IP-Adresse der Bridge in die
 Konfigurationsdatei lupus-hue.conf übernommen. Sollte die Bridge nicht automatisch gefunden werden, kann die IP-Adresse auch händisch
 in der Konfigurationsdatei eingetragen werden:
 ```
