@@ -273,9 +273,9 @@ http://pi:8000/loop?g=all_n=alarm_t=120
 
 ## Raum-Listen
 
-An jeder Stelle an der in der obigen API-Beschreibung die Nennung einer Gruppe bzw. eines Raumes mit dem Parameter g=group
+An jeder Stelle, an der in der obigen API-Beschreibung die Nennung einer Gruppe bzw. eines Raumes mit dem Parameter g=group
 möglich ist, kann auch eine benannte Liste an Räumen angegeben werden, die zuvor in der Konfigurationsdatei hinterlegt
-wurden. Diese Listen dienen zur Reduktion der nötigen Home Automation Regeln in der LUPUS XT-Anlage. 
+wurden. Diese Listen dienen zur Reduktion der nötigen Home Automation Regeln in der LUPUS XT2+-Anlage. 
 
 Beispiel für Raum-Listen (in lupus-hue.conf):
 ```
