@@ -62,7 +62,8 @@ Ich habe dieses Programm ausschließlich mit der Standard Hue App von Philips ge
 auch mit Apps von Drittanbietern zusammenarbeiten.
 
 Es sollten alle Räume - in der Philips Hue API heißen diese Gruppen bzw. Groups - und Lichter über die App eingerichtet
-werden. _Nach dem Einrichten eines neuen Raums muss lupus-hue neu gestartet werden!_
+werden. _Nach dem Einrichten eines neuen Raums muss lupus-hue neu gestartet oder das reload-Kommando aufgerufen 
+werden!_
 
 Über lupus-hue können die Farbwerte nach dem Hue/Sat-Schema und Weißtöne nach der Farbtemperatur (color temperatur)
 eingestellt werden. Siehe dazu: https://www.developers.meethue.com/documentation/core-concepts
