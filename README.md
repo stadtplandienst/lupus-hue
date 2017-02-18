@@ -261,6 +261,10 @@ http://ip:8000/on?g=Flur_n=scene2
 ```
 dass im Flur die Lichter 2 und 3 rot und Licht 4 ausgeschaltet wird.
 
+Wenn Einstellungen in der Konfigurationsdatei verändert wurden, muss das Programm "lupus-hue" neu gestartet werden oder
+das "reload"-Kommando aufgerufen werden. Dabei werden alle vorhandenen Szenen, die zu lupus-hue gehören, jeweils gelöscht
+und neu angelegt. 
+
 ## Loops
 
 Eine Loop besteht aus zwei Szenen, zwischen denen im Sekundentakt hin- und hergeschaltet wird, sowie einer Szene, die den
