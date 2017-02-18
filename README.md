@@ -211,6 +211,14 @@ http://pi:8000/loop?g=group_n=scene_t=seconds
 Mit Hilfe einer Loop können verschiedene Lichter für einen definierten Zeitraum blinken und dann in einen Endzustand
 übergehen. Siehe auch das  Kapitel "Loops".
 
+### Kommando "reload" - Konfiguration neu laden
+
+```
+http://pi:8000/reload
+```
+
+Lädt die Konfigurationsdatei und die Informationen von der Hue Bridge neu ein ohne das Programm neu starten zu müssen.
+
 ## Szenen
 
 Anders als in der Hue App, werden Szenen bei lupus-hue nicht fest einem Raum / einer Gruppe zugeordnet. Beim Aufrufen
