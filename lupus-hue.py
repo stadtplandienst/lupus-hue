@@ -1,7 +1,45 @@
-#!/usr/bin/env python3.4
+#
+# lupus-hue server - Automate Philips Hue lights from LUPUS XT2+ alarm system
+#
+# Copyright (c) 2017  stadtplandienst
+#
+# MIT License
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
+# SSDP discovery:
+#
+#   Copyright 2014 by Dan Krause, Python 3 hack 2016 by Adam Baxter
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 
 import requests, json, pprint, time, socket, http.client, io, configparser, os, sys
-
 from   http.server import BaseHTTPRequestHandler, HTTPServer
 from   multiprocessing import Process, Pipe
 
@@ -67,8 +105,8 @@ def init_scenes(do_print,do_delete):
 
     # Read config file
     config = configparser.ConfigParser()
-    file = 'lupus-hue.conf'
-    
+    file = 'lupus-hue.conf'  
+
     if os.path.exists(file):
         config.read(file)
         bridge_ip = ""
@@ -79,8 +117,8 @@ def init_scenes(do_print,do_delete):
             port = int(config["HTTP-Server"]["port"])
         except:
             print ("Error in [Hue] or [HTTP-Server] section in config file.",file)
-            sys.exit()
-            
+            sys.exit()     
+
         if bridge_ip == "":
             print ("Bridge IP not configured. Scanning for Hue bridge ...")
             bridge_ip = discover("ssdp:all")
@@ -90,6 +128,7 @@ def init_scenes(do_print,do_delete):
             config["Hue"]["bridge_ip"] = bridge_ip
             with open(file, 'w') as configfile:
                 config.write(configfile)
+
         if (do_print):
             print ("Hue bridge IP is:",bridge_ip)
             
@@ -117,9 +156,24 @@ def init_scenes(do_print,do_delete):
         print ("Config file",file,"not found.")
         sys.exit()
 
-    # Get groups and store in global variable
-    resp = requests.get(base_url+"groups/")
-    j_groups = resp.json()
+    # Delete prexisting scenes
+    if (do_delete):
+        resp = requests.get(base_url+"scenes/")
+        scenes = resp.json()
+        for s_id in scenes:
+            s_details = scenes[s_id]
+            try:                        
+                app_data = s_details["appdata"]
+                if app_data["data"] == "lupus-hue":
+                    payload = {}
+                    resp = requests.delete(base_url+"scenes/"+s_id,data=json.dumps(payload))
+                    rj = resp.json()
+                    try:
+                        print ("Error deleting scene:",rj[0]["error"])
+                    except:
+                        pass
+            except:
+                pass
 
     # Get scenes
     resp = requests.get(base_url+"scenes/")
@@ -131,7 +185,7 @@ def init_scenes(do_print,do_delete):
 
     my_scenes = { }
 
-    if True:
+    try:
         for s in config_scenes:
             entries = config_scenes[s].split(' ')
             light_list = []
@@ -170,38 +224,23 @@ def init_scenes(do_print,do_delete):
                     sys.exit()
             my_scenes[s]["lights"] = light_list
             my_scenes[s]["lightstates"] = lightstate_list
-    else:
+    except:
         print ("Wrong paramater(s) in config file.")
-
-    # Delete prexisting scenes
-    if (do_delete):
-        for s_id in scenes:
-            # print (s_id)
-            s_details = scenes[s_id]
-            for m in my_scenes:
-                if m == s_details["name"]:
-                    print ("Deleting scene "+m+".")
-                    payload = {}
-                    resp = requests.delete(base_url+"scenes/"+s_id,data=json.dumps(payload))
-                    result = resp.json()
-                    try:
-                        print ("Error deleting scene:",rj[0]["error"])
-                    except:
-                        pass
 
     # Checking whether scenes already exist
     for s_id in scenes:
         s_details = scenes[s_id]
-        for m in my_scenes:
-            if m == s_details["name"]:
-                d = my_scenes[m]
-                my_scenes[m] = { "id": s_id, "lights": d["lights"], "lightstates": d["lightstates"] }
+        try:
+            d = my_scenes[s_details["name"]]
+            my_scenes[s_details["name"]] = { "id": s_id, "lights": d["lights"], "lightstates": d["lightstates"] }
+        except:
+            pass
 
     # Create scenes that do not exit
     for m in my_scenes:
         if my_scenes[m]["id"] == "":
             # Create scene
-            payload = {"name": m, "lights": my_scenes[m]["lights"], "recycle": False }
+            payload = {"name": m, "appdata": {"data": "lupus-hue","version": 1}, "lights": my_scenes[m]["lights"], "recycle": False }
             try:
                 resp = requests.post(base_url+"scenes/",data=json.dumps(payload))
                 rj = resp.json()
@@ -223,7 +262,8 @@ def init_scenes(do_print,do_delete):
 
     return
 
-def zeit (time):
+def time_string (time):
+    
     if int(time/60) == 0:
         message = str(time) + " seconds"
     elif int(time/60) == 1:
@@ -248,9 +288,7 @@ class myHTTPServer_RequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         message = "<html><head><title>lupus-hue server</title></head><body>"     
 
-
-        if 1:
-        # try:
+        try:
                  
             params = { "l":"","g":"","d":"","b":"","h":"","s":"","t":"","x":"","c":"","n":""}
       
@@ -270,9 +308,12 @@ class myHTTPServer_RequestHandler(BaseHTTPRequestHandler):
             if not init:
                 init = True
                 init_scenes(False,False)
-                # print (base_url)
 
             payload = {}
+
+            # Get groups 
+            resp = requests.get(base_url+"groups/")
+            j_groups = resp.json()
 
             # Process params of request
             if params["g"] == "all":
@@ -283,15 +324,15 @@ class myHTTPServer_RequestHandler(BaseHTTPRequestHandler):
                 is_light = True
             else:
                 is_light = False
-                for x in range(99):
+                for j in j_groups:
                     try:
-                        y = j_groups[str(x+1)]
+                        y = j_groups[j]
                         if action == "info":
-                            message += "group " + str(x+1) + " = " + y["name"] + "<br>"
+                            message +=  y["name"] + " = " + "group " + str(j) + "<br>"
                         if params["g"] == y["name"]:
-                            number_list.append(str(x+1))
+                            number_list.append(str(j))
                         elif y["name"] in group_names[params["g"]]:
-                            number_list.append(str(x+1))
+                            number_list.append(str(j))
                     except:
                         pass
       
@@ -366,8 +407,8 @@ class myHTTPServer_RequestHandler(BaseHTTPRequestHandler):
             if action == "info":
                 child_conn.send(["info","",-1,False,""])
 
-            if action == "init":
-                init_scenes(False,True)
+            if action == "reload":
+                init_scenes(True,True)
             
             for x in number_list:
                 if lux <= lux_level:
@@ -377,7 +418,7 @@ class myHTTPServer_RequestHandler(BaseHTTPRequestHandler):
                         child_conn.send(["group",x,-1,False,""])
                         # Send loop command
                         child_conn.send(["loop",x,tim,False,params["n"]])
-                        message += "loop started for group " + x + " and scene " + params["n"] + " for " + zeit(tim)
+                        message += "loop started for group " + x + " and scene " + params["n"] + " for " + time_string(tim)
                         continue
                     elif action == "info":
                         if params["n"] != "":
@@ -388,7 +429,6 @@ class myHTTPServer_RequestHandler(BaseHTTPRequestHandler):
                             else:
                                 resp = requests.get(base_url+"groups/"+x)
                     else: # Action is on or off
-                        # print ("Action",x,action,is_timer)
                         if not is_timer:
                             # Kill potential previous timer
                             if is_light:
@@ -414,9 +454,9 @@ class myHTTPServer_RequestHandler(BaseHTTPRequestHandler):
                             else:
                                 child_conn.send([command,x,tim,True,""])
                             if is_light:
-                                message += "Timer set for light " + x + ": " + zeit(tim) + "<br>"
+                                message += "Timer set for light " + x + ": " + time_string(tim) + "<br>"
                             else:
-                                message += "Timer set for group " + x + ": " + zeit(tim)+ "<br>"
+                                message += "Timer set for group " + x + ": " + time_string(tim)+ "<br>"
                                 
    
                     pp = pprint.pformat(resp.json(),indent=4)
@@ -431,8 +471,7 @@ class myHTTPServer_RequestHandler(BaseHTTPRequestHandler):
                     message += "<br>"
                 else:
                     print ("Command for group/light ",x, " not executed because of lux level.")
-        else:
-        # except:
+        except:
             message += "<span style=color:#F40707>"
             message += "wrong param(s) exception</body></html>"
             print ("Wrong param(s) exception")
@@ -455,11 +494,8 @@ def delete_deferred (g):
     
 def run (conn):
     
-    lux = 0
     global init
     global port
-
-    init = False
     
     # Server settings
     server_address = ('',port)
@@ -480,7 +516,6 @@ def switch(group,lights,on):
             resp = requests.put(base_url+"groups/"+group+"/action/",data=json.dumps(payload))
     except:
         print ("Exception in switch()")
-    
     return
 
 def blink(scene,timer,group):
@@ -510,10 +545,13 @@ if __name__ == '__main__':
     global base_url
     global j_groups
     global my_scenes
+    global init
+    global lux
 
     print ("++++ lupus-hue server")
 
-    init_scenes(True,False)
+    init_scenes(True,True)
+    init = True
 
     # Creating pipe
     parent_conn, child_conn = Pipe()
@@ -533,77 +571,64 @@ if __name__ == '__main__':
     timeout = 1  # Wait cycle in seconds
 
     while True:
-        if True:
-            for p in groups_state.keys():
-                if groups_state[p][0] > 0:
-                    # decrease counter
-                    groups_state[p][0] -= 1
-                    if groups_state[p][0] == 0:
-                        if groups_state[p][1]:
-                            o = "on"
-                        else:
-                            o = "off"
-                        print ("Timer: switching group", p, o)
-                        switch(p,False,groups_state[p][1])
-                # print ("grp ",p, groups_state[p][0],groups_state[p][1])
+        for p in groups_state.keys():
+            if groups_state[p][0] > 0:
+                # decrease counter
+                groups_state[p][0] -= 1
+                if groups_state[p][0] == 0:
+                    if groups_state[p][1]:
+                        o = "on"
+                    else:
+                        o = "off"
+                    print ("Timer: switching group", p, o)
+                    switch(p,False,groups_state[p][1])
 
-            for p in lights_state.keys():
-                if lights_state[p][0] > 0:
-                    # decrease counter
-                    lights_state[p][0] -= 1
-                    if lights_state[p][0] == 0:
-                        if lights_state[p][1]:
-                            o  = "on"
-                        else:
-                            o = "off"
-                        print ("Timer: switching light", p, o)
-                        switch(p,True,lights_state[p][1])
-                # print ("lig ",p, lights_state[p][0],lights_state[p][1])
+        for p in lights_state.keys():
+            if lights_state[p][0] > 0:
+                # decrease counter
+                lights_state[p][0] -= 1
+                if lights_state[p][0] == 0:
+                    if lights_state[p][1]:
+                        o  = "on"
+                    else:
+                        o = "off"
+                    print ("Timer: switching light", p, o)
+                    switch(p,True,lights_state[p][1])
 
-            for p in loops_state.keys():
-                if loops_state[p][0] > 0:
-                    # decrease counter
-                    loops_state[p][0] -= 1
-                    blink(p,loops_state[p][0],loops_state[p][1])
-                    if loops_state[p][0] == 0:
-                        print ("Loop: stopped group", loops_state[p][1], "scene", p)
-                # print ("loop ",p, loops_state[p][0],loops_state[p][1])
-
+        for p in loops_state.keys():
+            if loops_state[p][0] > 0:
+                # decrease counter
+                loops_state[p][0] -= 1
+                blink(p,loops_state[p][0],loops_state[p][1])
+                if loops_state[p][0] == 0:
+                    print ("Loop: stopped group", loops_state[p][1], "scene", p)
             
-            if parent_conn.poll(timeout):
-                while parent_conn.poll(1):
+        if parent_conn.poll(timeout):
+            while parent_conn.poll(1):
                 
-                    params = parent_conn.recv()
-                    command = params[0]
-                    name = params[1]
-                    time = params[2]
-                    switch_off = params[3]
-                    scene = params[4]
+                params = parent_conn.recv()
+                command = params[0]
+                name = params[1]
+                time = params[2]
+                switch_off = params[3]
+                scene = params[4]
                 
-                    if command == "light":
-                        if time == -1 and lights_state.get(name,[0,False])[0] > 0:
-                            print ("Timer: light " + name + " cancelled")
-                            lights_state[name] = [0,False]
-                        elif time > 0:
-                            print ("Timer: started for light", name, "for", zeit(time))
-                            lights_state[name] = [time,switch_off]
-                    elif command == "group":
-                        if time == -1 and groups_state.get(name,[0,False])[0] > 0:
-                            print ("Timer: group " + name + " cancelled")
-                            groups_state[name] = [0,False]
-                        elif time > 0:
-                            print ("Timer: started for group " + name + " for " + zeit(time))
-                            groups_state[name] = [time,switch_off]
-                    elif command == "loop":
-                        print ("Loop: started for group " + name + " and scene " + scene +" for "+zeit(time))
-                        loops_state[scene] = [time,name]
-                    #elif command == "info":
-                    #    print ("Timer: Lights ",lights_state)
-                    #    print ("Timer: Groups ",groups_state)
-                    #    print ("Timer: Loops ",loops_state)
-
-        else:
-            print ("Exception")
-            time.sleep(1)
+                if command == "light":
+                    if time == -1 and lights_state.get(name,[0,False])[0] > 0:
+                        print ("Timer: light " + name + " cancelled")
+                        lights_state[name] = [0,False]
+                    elif time > 0:
+                        print ("Timer: started for light", name, "for", time_string(time))
+                        lights_state[name] = [time,switch_off]
+                elif command == "group":
+                    if time == -1 and groups_state.get(name,[0,False])[0] > 0:
+                        print ("Timer: group " + name + " cancelled")
+                        groups_state[name] = [0,False]
+                    elif time > 0:
+                        print ("Timer: started for group " + name + " for " + time_string(time))
+                        groups_state[name] = [time,switch_off]
+                elif command == "loop":
+                    print ("Loop: started for group " + name + " and scene " + scene +" for "+time_string(time))
+                    loops_state[scene] = [time,name]
 
     p.join()
