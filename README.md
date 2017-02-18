@@ -294,10 +294,12 @@ Beispiel für Raum-Listen (in lupus-hue.conf):
 WF = ('Wohnzimmer', 'Flur',)
 FK = ('Flur','Keller')
 SZ = ('Schlafzimmer',)
+Kueche = ('Küche',)
 ```
 Mit g=WF können werden Aktionen jetzt für beide Gruppen/Räume "Wohnzimmer" und "Flur" ausgeführt. Wie mit dem Beispiel "SZ"
 kann man diesen Mechanismus auch benutzen um Abkürzungen für die Namen von Gruppen/Räumen einzuführen. Wichtig ist dabei
-aber das Komma nach dem Raumnamen.
+aber das Komma nach dem Raumnamen. Wenn Raumnamen Umlaute oder andere Sonderzeichen enthalten, kann für solche Räume ein
+Aliasnamen gefunden werden (wie im Beispiel Kueche für Küche).
 
 ## Quellen
 
