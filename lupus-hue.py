@@ -409,7 +409,9 @@ class myHTTPServer_RequestHandler(BaseHTTPRequestHandler):
 
             if action == "reload":
                 init_scenes(True,True)
-            
+                child_conn.send(["reload","0",10,False," "])
+                message += "configuration reloaded"
+
             for x in number_list:
                 if lux <= lux_level:
                     # Either brightness is irrelevant (no lux param) or it is dark enough
@@ -570,6 +572,7 @@ if __name__ == '__main__':
 
     timeout = 1  # Wait cycle in seconds
 
+    # Endlessly looping and reading commands from pipe
     while True:
         for p in groups_state.keys():
             if groups_state[p][0] > 0:
@@ -612,8 +615,10 @@ if __name__ == '__main__':
                 time = params[2]
                 switch_off = params[3]
                 scene = params[4]
-                
-                if command == "light":
+
+                if command == "reload":
+                    init_scenes(False,False)
+                elif command == "light":
                     if time == -1 and lights_state.get(name,[0,False])[0] > 0:
                         print ("Timer: light " + name + " cancelled")
                         lights_state[name] = [0,False]
