@@ -218,7 +218,8 @@ Mit Hilfe einer Loop können verschiedene Lichter für einen definierten Zeitrau
 http://pi:8000/reload
 ```
 
-Lädt die Konfigurationsdatei und die Informationen von der Hue Bridge neu ein ohne das Programm neu starten zu müssen.
+Lädt die Konfigurationsdatei und die Informationen von der Hue Bridge neu ein ohne das Programm neu starten zu müssen. Alle
+Szenen werden gelöscht und neu angelegt.
 
 ## Szenen
 
@@ -244,6 +245,7 @@ on = on:True
 off = on:False
 red = on:True hue:64866 sat:254 bri:254
 neutral = on:True ct:220 bri:254
+colorloop = on:True effect:colorloop
 ```
 Nun können Szenen definiert werden, die auf die Lichtzustände verweisen. Dazu wird ein Abschnitt [Scenes] angelegt, der
 die Szenen aufführt und jeweils Zustände mit Lichtern verbindet.
